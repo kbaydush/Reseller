@@ -13,7 +13,7 @@ $desc=array (
 );
 $up=-80;
 $ut=50;
-$ttffile='/Applications/MAMP/htdocs/mackiev.localhost/fsdtprocessor/lib/MPDF57/ttfonts/arialmt.ttf';
+$ttffile='lib/MPDF57/ttfonts/arialmt.ttf';
 $TTCfontID='0';
 $originalsize=61806;
 $sip=false;
