@@ -32,35 +32,11 @@
 
     $CFG->DEBUG_MODE_BY_DEFAULT = array(
     //   gen pdf init
-        'pdfgen' => '{
-                    "pdf": {
-                        "10": [
-                            {
-                                "product": "^to_set_init_params$"
-                            }
-                        ],
-                         "11": [
-                            {
-                                "product": "^to_set_init_params$"
-                            }
-                        ]
-                    }
-        }',
+        'pdf' => 1,
     //  send mail init
-        'sendmail' => '{
-                        "10": [
-                            {
-                                "product": "^to_set_init_params$"
-                            }
-                        ],
-                         "11": [
-                            {
-                                "product": "^to_set_init_params$"
-                            }
-                        ]
-        }',
+        'sendmail' => 1,
         'testmail' => 0,   //test mail [yes/no]
-        'request' => 1,          // request to Mirror [yes/no]
+        'request' => 0,          // request to Mirror [yes/no]
         'setmirror' => 'test', //Mirror server -> $CFG->MIRROR_SERVERS array values
         'pushstorage' => 0,        // data submit from file [yes/no]
         'force' => 0,       // data submit to main server [yes/no]
@@ -81,6 +57,7 @@
         'name' => 'mirrorName',
         'surname' => 'mirrorSurname',
         'product' => 'mirrorProduct',
+        'LicenseKey' => 'mirrorLicenseKey',
         'security_data' => 'security_data',
         'security_hash' => 'security_hash'
     );

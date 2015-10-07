@@ -32,7 +32,7 @@
 
             } catch (Exception $e) {
                 header('HTTP/1.1 400 BAD_REQUEST');
-                $this->error_log->lwrite("Error: ".$e->getMessage());
+                $this->error_log->lwrite("Error: ".$e->getMessage());echo time();
                 die();
             }
         }
@@ -43,9 +43,12 @@
                 $config = $this->Request->getConfig();
                 if ($config->processFormId != 'cron')
                     if (count($POST) > 0) {
+
                         $this->Request->setParams($POST);
                     } else if (count($GET) > 0) {
                         $this->Request->setParams($GET);
+
+
                     } else {
                         throw new \InvalidArgumentException("Required params are absent!");
                     }
@@ -71,6 +74,7 @@
         public function action()
         {
             $GET = $this->Request->getParams();
+
             $CFG = $this->Request->getConfig();
             if($GET['drop'] == true)
             {
@@ -85,7 +89,7 @@
 
 // Request to the mirror
 
-            if($this->Request->getDebugMode('pm') == true)
+            if($this->Request->getDebugMode('request') == true)
             {
                 try {
                     if($this->Request->loadStorage())
@@ -117,9 +121,9 @@
 
 // GENERATE PDF
 
-            if($this->Request->initActionSet('pdf'))
-            {
-                require_once $CFG->root_dir."/../lib/MPDF57/mpdf.php";
+            if($this->Request->getDebugMode('pdf'))
+            { echo 1;
+                echo require_once $CFG->root_dir."/lib/MPDF57/mpdf.php";
                 $replacement = '@separator@';
                 $html = file_get_contents($CFG->root_dir.'/SiteLicense.html');
                 $search = preg_replace("#(.*)<style>(.*?)</style>(.*)#is", "$1{$replacement}$2{$replacement}$3" , $html);
@@ -150,7 +154,7 @@
 
 // SEND MAIL
 
-            if($this->Request->initActionSet('mail'))
+            if($this->Request->getDebugMode('mail'))
             {
                 try {
 
