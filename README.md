@@ -7,6 +7,7 @@
 All of the process can be used optionally and can be set in config.php
 
 DESCRIPTION:
+
 In case we need to synchronize the form request between two other sites with different form parameters then have to set definition of our synchronized request parameters in configuration file (./config.php):
 
 [field1_name => field1_name_mirror]
