@@ -95,7 +95,7 @@
         'security_hash' => 'security_hash'
     );
 
-// Data does not going to postman
+// Data does not going to mirror
     $CFG->params_disabled = array(
 
         'security_data',

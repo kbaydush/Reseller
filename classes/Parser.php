@@ -24,7 +24,7 @@
         /* Debug mode params */
         private $debug_mode = array();
 
-        /* Requested Postman's Url */
+        /* Requested Mirror's Url */
         public $url;
 
         /* path name od pdf files which had been removed */
@@ -126,7 +126,7 @@
         public function getUrl()
         {
 
-            return $this->config->POSTMAN_SERVERS[$this->getDebugMode('setmirror')];
+            return $this->config->MIRROR_SERVERS[$this->getDebugMode('setmirror')];
 
         }
 
@@ -274,7 +274,7 @@
             {
 
                 if(array_key_exists($key, $request_params)
-                    && !in_array($key, $this->config->postman_disabled)
+                    && !in_array($key, $this->config->params_disabled)
                     && !array_key_exists($key, $this->config->DEBUG_MODE_BY_DEFAULT))
                     $_params[$request_params[$key]] = $value;
 
@@ -445,7 +445,7 @@
                     $url = $this->all_params[$param_key]['postman_url'];
                 }
 
-                // postman_url parameter must not sending to Postman
+                // postman_url parameter must not sending to mirror
                 unset($this->all_params[$param_key]['postman_url']);
 
                 $ch = curl_init();
@@ -573,7 +573,7 @@
                     else if (in_array($st_value['redirect_url'], $this->config->response_wrong))
                     {
                         fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
-                        $curl_status[$st_key]['status'] = "Postman does return error. Data does not submitted.";
+                        $curl_status[$st_key]['status'] = "Mirror does return error. Data does not submitted.";
                     }
                     else if(in_array($st_value['redirect_url'], $this->config->response_successfull))
                     {
