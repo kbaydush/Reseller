@@ -1,6 +1,6 @@
 
 
-In case we need to synchronize the form request between two other sites with different form parameters then have definition of our synchronized request parameters in configuration file:
+In case we need to synchronize the form request between two other sites with different form parameters then have to set definition of our synchronized request parameters in configuration file (./config.php):
 
 [field1_name => field1_name_mirror]
 [field1_name => field1_name_mirror]
