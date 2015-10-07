@@ -1,7 +1,12 @@
 <?php
 
+/*
+ * PHP Class Handler
+ * Created by K.Baidush
+ * Handling the process
+ */
 
-    class Controller
+    class Handler
     {
         private $error_log;
         private $query_log;
@@ -10,11 +15,11 @@
         public function __construct($CFG, $formId)
         {
 
-// Setting the real formId
+// Set real formId
 
             $CFG->processFormId = $formId;
 
-// setting path and name of the log file (optionally)
+// set path and name of the log file (optionally)
 
             $this->error_log = new Logging();
             $this->query_log = clone $this->error_log;
@@ -22,7 +27,7 @@
             $this->error_log->lfile($CFG->root_dir.'/logs/error.log');
 
             try {
-                $this->Request = new Parser();
+                $this->Request = new HttpRequestParser();
 
                 if(empty($CFG->processFormId) || !$this->Request->setConfig($CFG))
                 {
@@ -40,8 +45,8 @@
         public function setRequestParams($GET, $POST)
         {
             try {
-                $config = $this->Request->getConfig();
-                if ($config->processFormId != 'cron')
+
+                if ($this->Request->getConfig()->processFormId != 'cron')
                     if (count($POST) > 0) {
 
                         $this->Request->setParams($POST);
@@ -73,12 +78,10 @@
 
         public function action()
         {
-            $GET = $this->Request->getParams();
 
-            $CFG = $this->Request->getConfig();
-            if($GET['drop'] == true)
+            if($this->Request->getParams()['drop'] == true)
             {
-                $res = unlink($CFG->root_dir.'/storage');
+                $res = unlink($this->Request->getParams()->root_dir.'/storage');
                 if($res == true)
                 {
                     echo "File droped";
@@ -96,17 +99,17 @@
                     {
                         $this->query_log->lwrite('Message: Request to storage has been started..........');
 
-                        $Response = $this->Request->handle();
+                        $response = $this->Request->handle();
 
-                        foreach($Response as $key => $val)
+                        foreach($response as $key => $val)
                         {
-                            $this->query_log->lwrite('Server URL: '.$val['postman_url']);
+                            $this->query_log->lwrite('Server URL: '.$val['mirror_url']);
                             $this->query_log->lwrite('FormId: '.$val['formId']);
                             $this->query_log->lwrite('Response: '.http_build_query($val));
-                            if(!empty($Response[$key]['status']))
+                            if(!empty($response[$key]['status']))
                             {
                                 header('HTTP/1.1 400 BAD_REQUEST');
-                                $this->error_log->lwrite("Error: ".$Response[$key]['status']);
+                                $this->error_log->lwrite("Error: ".$response[$key]['status']);
                             }
                         }
                     }
@@ -119,23 +122,23 @@
 
             }
 
-// GENERATE PDF
+// Generate PDF
 
             if($this->Request->getDebugMode('pdf'))
-            { echo 1;
-                echo require_once $CFG->root_dir."/lib/MPDF57/mpdf.php";
+            {
+                require_once $this->Request->getConfig()->root_dir."/lib/MPDF57/mpdf.php";
                 $replacement = '@separator@';
-                $html = file_get_contents($CFG->root_dir.'/SiteLicense.html');
+                $html = file_get_contents($this->Request->getConfig()->root_dir.'/SiteLicense.html');
                 $search = preg_replace("#(.*)<style>(.*?)</style>(.*)#is", "$1{$replacement}$2{$replacement}$3" , $html);
                 $array_html = explode('@separator@',$search);
                 $head = $array_html[0];
                 $style = $array_html[1];
                 $body = $array_html[2];
                 $html = $head . $body;
-                $getRes = $this->Request->removeOldestPdf('/files', $CFG->root_dir);
+                $getRes = $this->Request->removeOldestPdf('/files', $this->Request->getConfig()->root_dir);
                 if(!empty($getRes) && $getRes['result'] == false)
                 {
-                    $this->error_log->lwrite('Error: PDF file - ' .$getRes['dirname'] . ' does not removed correctly. Lifetime is '. $CFG->pdf_lifetime. ' ms');
+                    $this->error_log->lwrite('Error: PDF file - ' .$getRes['dirname'] . ' does not removed correctly. Lifetime is '. $this->Request->getConfig()->pdf_lifetime. ' ms');
 
                 }
                 $attach_pdf = $this->Request->genPDF($html, $style);
@@ -160,7 +163,7 @@
 
                     if($this->Request->getDebugMode('mail_test') == true)
                     {
-                        $mailto = $CFG->test_mail;
+                        $mailto = $this->Request->getConfig()->test_mail;
                     }
                     else
                     {
@@ -184,7 +187,7 @@
 
             if($this->Request->getDebugMode('info') == true)
             {
-//                $this->query_log->lwrite(print_r($this->Request, 1));
+
                 echo "<br/>";
 
                 echo "CONFIG: ";
@@ -204,8 +207,8 @@
 
         public function actionCron()
         {
-            $CFG = $this->Request->getConfig();
-            $CFG->processFormId = 'cron';
+
+            $this->Request->getConfig()->processFormId = 'cron';
 
             if(!$this->Request->getDebugMode('cron'))
             {
@@ -231,7 +234,7 @@
 
                         foreach($response as $key => $val)
                         {
-                            $this->query_log->lwrite('Server URL: '.$val['postman_url']);
+                            $this->query_log->lwrite('Server URL: '.$val['mirror_url']);
                             $this->query_log->lwrite('FormId: '.$val['formId']);
                             $this->query_log->lwrite('Response: '.http_build_query($val));
                             if(!empty($response[$key]['status']))

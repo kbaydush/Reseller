@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * PHP Class Autoloader
+ * Created by K.Baidush
+ * Loading all classes
+ */
+
 class Autoloader
 {
     private static $_lastLoadedFilename;

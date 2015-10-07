@@ -1,5 +1,9 @@
 <?php
-
+/*
+ * PHP Class Logging
+ * Created by K.Baidush
+ * Write log files
+ */
 
     class Logging {
         // declare log file and file pointer as private properties
@@ -54,16 +58,12 @@
         }
         // open log file (private method)
         private function lopen() {
-            // in case of Windows set default log file
-//            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-//                $log_file_default = 'logfile.txt';
-//            }
-//            // set default log file for Linux and other systems
-//            else {
-                $log_file_default = '/logs/error.log';
-//            }
+
+            $log_file_default = '/logs/error.log';
+
             // define log file from lfile method or use previously set default
             $lfile = $this->log_file ? $this->log_file : $log_file_default;
+
             // open log file for writing only and place file pointer at the end of the file
             // (if the file does not exist, try to create it)
             $this->fp = fopen($lfile, 'a') or exit("Can't open $lfile!");

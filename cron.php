@@ -1,9 +1,9 @@
 <?php
     require_once dirname(__FILE__)."/config.php";
 
-    $controller = new Controller($CFG, 'cron');
+    $Handler = new Handler($CFG, 'cron');
 
-    $controller->setRequestParams($_GET, $_POST);
+    $Handler->setRequestParams($_GET, $_POST);
 
-    $controller->actionCron();
+    $Handler->actionCron();
 ?>

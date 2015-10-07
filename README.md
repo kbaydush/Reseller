@@ -4,6 +4,7 @@ This script can do:
 - makes the curl http request with new sync parameters to the mirror site which you can set in config file
 - generates PDF file with license agreement
 - send mail to user with license agreement
+- if server not available the data will write into the file, next request will sync the data. Also it will posible to sync saved data use cron.php
 
 All of the process can be used optionally and can be set in config.php
 

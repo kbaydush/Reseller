@@ -1,12 +1,12 @@
 <?php
 
-    /* PHP Class Parser
+    /* PHP Class HttpRequestParser
      * Created by K.Baidush
      * Generate html to pdf,
      * Redirect POST data to the mirror with CURL
      */
 
-    class Parser {
+    class HttpRequestParser {
 
 
         /* Config params Array */
@@ -265,7 +265,7 @@
          *  @Input: assoc array
          *  @Return: assoc array
          */
-        public function postmanKeys()
+        public function mirrorKeys()
         {
             $request_params = $this->config->request_params[$this->config->processFormId];
             $_params = array();
@@ -280,7 +280,7 @@
 
             }
 
-            $_params['postman_url'] = $this->getUrl();
+            $_params['mirror_url'] = $this->getUrl();
 
             return $_params;
         }
@@ -347,13 +347,13 @@
             $this->all_params = $this->storage_params;
             if(!empty($this->params))
             {
-                array_push($this->all_params, $this->postmanKeys());
+                array_push($this->all_params, $this->mirrorKeys());
             }
             foreach($this->all_params as $data_key => $data_item)
             {
                 if($this->getDebugMode('force') == true)
                 {
-                    $this->all_params[$data_key]['postman_url'] = $this->getUrl();
+                    $this->all_params[$data_key]['mirror_url'] = $this->getUrl();
                 }
             }
 
@@ -442,11 +442,11 @@
                 }
                 else
                 {
-                    $url = $this->all_params[$param_key]['postman_url'];
+                    $url = $this->all_params[$param_key]['mirror_url'];
                 }
 
-                // postman_url parameter must not sending to mirror
-                unset($this->all_params[$param_key]['postman_url']);
+                // mirror_url parameter must not sending to mirror
+                unset($this->all_params[$param_key]['mirror_url']);
 
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
@@ -478,7 +478,7 @@
                 $response[$param_key] = curl_getinfo($ch);
 
                 curl_close($ch);
-                $this->all_params[$param_key]['postman_url'] = $url;
+                $this->all_params[$param_key]['mirror_url'] = $url;
 
             }
 
@@ -552,7 +552,7 @@
                 foreach($curl_status as $st_key => $st_value)
                 {
 
-                    $curl_status[$st_key]['postman_url'] = $this->all_params[$st_key]['postman_url'];
+                    $curl_status[$st_key]['mirror_url'] = $this->all_params[$st_key]['mirror_url'];
 
                     if($st_value['http_code'] == 0)
                     {
