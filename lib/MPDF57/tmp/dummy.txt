@@ -1,0 +1,49 @@
+formreader
+pmtest.apple-park.kiev.ua/pm
+feedback_thankyou.html
+/winkp3des
+form.css
+/css
+kp3d_spanish.jpg
+/winkp3des/img
+logo_mc_gor.jpg
+/winkp3des/img
+inject.js
+gppongmhjkpfnbhagpmjfkannfbllamg/js
+6 requests ❘ 1.4 KB transferred ❘ 493 ms (load: 360 ms, DOMContentLoaded: 360 ms)
+HeadersPreviewResponseTiming
+Remote Address:10.10.0.3:3128
+Request URL:http://pmtest.apple-park.kiev.ua/pm/formreader
+Request Method:POST
+Status Code:302 Moved Temporarily
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Cache-Control:max-age=0
+Content-Length:226
+Content-Type:application/x-www-form-urlencoded
+Host:pmtest.apple-park.kiev.ua
+Origin:http://mackievem.mackiev.net
+Proxy-Connection:keep-alive
+Referer:http://mackievem.mackiev.net/winkp3des/feedback.html?ver=111
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36
+Form Dataview sourceview URL encoded
+formID:698
+l_computer:
+l_kpver:3.0 ES
+h_build:111
+t_firstname:123
+t_lastname:qwe12345
+l_install_type:Installed from downloadable disc image
+t_email:aaa@dev.test
+c_may_cont:1
+t_subj:qwe qwe qwe qw
+t_comments:qwe qweqw eqweqw
+Response Headersview source
+Connection:keep-alive
+Content-Length:0
+Content-Type:text/plain
+Date:Tue, 10 Jun 2014 11:48:38 GMT
+Location:http://mackievem.mackiev.net/winkp3des/feedback_thankyou.html
+Via:1.1 proxy.main.smk (squid/3.3.11)
