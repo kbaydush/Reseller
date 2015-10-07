@@ -13,9 +13,9 @@ DESCRIPTION:
 In case we need to synchronize the form request between two other sites with different form parameters then have to set definition of our synchronized request parameters in configuration file (./config.php):
 
 [field1_name => field1_name_mirror]
-[field1_name => field1_name_mirror]
-[field1_name => field1_name_mirror]
-[field1_name => field1_name_mirror]
+[field2_name => field2_name_mirror]
+[field3_name => field3_name_mirror]
+[field4_name => field4_name_mirror]
 ....
 [other => other_mirror]
 
