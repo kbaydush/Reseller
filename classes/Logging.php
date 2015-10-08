@@ -54,6 +54,8 @@
             {
                 $this->lwrite('END: ' . $this->timestamp . "#####");
             }
+
+
             fclose($this->fp);
         }
         // open log file (private method)

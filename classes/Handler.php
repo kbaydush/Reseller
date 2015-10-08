@@ -74,6 +74,8 @@
                 $this->query_log->lclose();
             if(!empty($this->error_log->fp))
                 $this->error_log->lclose();
+
+            echo "Process finished.";
         }
 
         public function action()

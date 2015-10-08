@@ -18,7 +18,7 @@
     $CFG->pdf_title = 'SITE LICENSE AGREEMENT';
     $CFG->pdf_author = 'SomeCompanyName Inc.';
 
-    // Here you can add any form id that needed for current workflow
+    // Here you can add any form id which we need
     $CFG->all_form_id_array = array(
         'purchases' => 10,
         'refunds' => 11
@@ -58,6 +58,7 @@
         'surname' => 'mirrorSurname',
         'product' => 'mirrorProduct',
         'LicenseKey' => 'mirrorLicenseKey',
+        'CustomerCompany' => 'mirrorCustomerCompany',
         'security_data' => 'security_data',
         'security_hash' => 'security_hash'
     );
@@ -69,6 +70,7 @@
         'surname' => 'mirrorSurname',
         'product' => 'mirrorProduct',
         'LicenseKey' => 'mirrorLicenseKey',
+        'CustomerCompany' => 'mirrorCustomerCompany',
         'security_data' => 'security_data',
         'security_hash' => 'security_hash'
     );
