@@ -4,8 +4,16 @@
     error_reporting(E_ALL ^ E_NOTICE);
     ini_set('display_errors', true);
     date_default_timezone_set('UTC');
-    require_once(dirname(__FILE__).'/classes/Autoloader.php');
-    spl_autoload_register(array('Autoloader', 'loadPackages'));
+
+    require_once(dirname(__FILE__) . '/classes/Autoloader.php');
+    require_once(dirname(__FILE__) . '/classes/Autoloader/Interface.php');
+
+    $loader = new Autoloader();
+    $loader->setRootPath(realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR));
+
+    Autoloader::register( $loader );
+
+
     global $CFG;
 
     $CFG = new stdClass();
