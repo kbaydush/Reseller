@@ -75,7 +75,7 @@
             if(!empty($this->error_log->fp))
                 $this->error_log->lclose();
 
-            echo "Process finished.";
+            echo "Done.";
         }
 
         public function action()
