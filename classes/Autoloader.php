@@ -42,10 +42,13 @@ class Autoloader implements Autoloader_Interface
     {
         $classPath = $this->prepareClassPath($className);
         if (!$this->tryLoadClass($classPath)) {
+            if (!is_null($this->logger)) {
+                $this->logger->logError("Cant load class " . $className);
+            }
             throw new Exception("Can`t load class " . $className);
         } else {
             if (!is_null($this->logger)) {
-                $this->logger->log(sprintf("Class %s was loaded from %sn", $className, $classPath));
+                $this->logger->logInfo(sprintf("Class %s was loaded from %sn", $className, $classPath));
             }
         }
     }
