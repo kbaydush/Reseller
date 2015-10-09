@@ -9,10 +9,11 @@
     require_once(dirname(__FILE__) . '/classes/Autoloader.php');
 
     $loader = new Autoloader();
-    $loader->setRootPath(realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR));
+    $loader->setRootPath(realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR));
 
     Autoloader::register( $loader );
 
+    $loader->setLogger(new Logging(realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR . 'error.log')));
 
     global $CFG;
 

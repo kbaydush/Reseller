@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  * PHP Class Autoloader
  * Created by K.Baidush
- * Loading all classes
+ *
  */
 
 class Autoloader implements Autoloader_Interface
@@ -22,6 +22,11 @@ class Autoloader implements Autoloader_Interface
         spl_autoload_register(array($loader, 'loadClass'));
     }
 
+    public function setLogger($logger) {
+
+        $this->logger = $logger;
+
+    }
     /**
      * @param string $realPath
      * @return Autoloader
@@ -40,11 +45,15 @@ class Autoloader implements Autoloader_Interface
      */
     public function loadClass($className)
     {
+
         $classPath = $this->prepareClassPath($className);
+
         if (!$this->tryLoadClass($classPath)) {
+
             if (!is_null($this->logger)) {
                 $this->logger->logError("Cant load class " . $className);
             }
+
             throw new Exception("Can`t load class " . $className);
         } else {
             if (!is_null($this->logger)) {
@@ -61,7 +70,8 @@ class Autoloader implements Autoloader_Interface
     {
         $pathParts = explode('_', $className);
 
-        return $this->rootPath . implode(DIRECTORY_SEPARATOR, $pathParts) . '.php';
+
+        return $this->rootPath . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $pathParts) . '.php';
     }
 
     private function tryLoadClass($classPath)
