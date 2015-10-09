@@ -5,8 +5,8 @@
     ini_set('display_errors', true);
     date_default_timezone_set('UTC');
 
-    require_once(dirname(__FILE__) . '/classes/Autoloader.php');
     require_once(dirname(__FILE__) . '/classes/Autoloader/Interface.php');
+    require_once(dirname(__FILE__) . '/classes/Autoloader.php');
 
     $loader = new Autoloader();
     $loader->setRootPath(realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR));
