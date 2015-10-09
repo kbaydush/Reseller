@@ -28,14 +28,14 @@ class Logging implements Logger_Interface
 
     public function __destruct()
     {
-        $massages = $this->generateFullLogMassage();
+        $massages = $this->generateFullLogMessage();
         file_put_contents($this->log_file, $massages, FILE_APPEND);
     }
 
     /**
      * @return string
      */
-    protected function generateFullLogMassage()
+    protected function generateFullLogMessage()
     {
         $returnString = "";
         if (count($this->messages) > 0) {

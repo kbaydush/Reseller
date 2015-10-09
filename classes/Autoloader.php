@@ -22,9 +22,9 @@ class Autoloader implements Autoloader_Interface
         spl_autoload_register(array($loader, 'loadClass'));
     }
 
-    public function setLogger($logger) {
+    public function setLogger($filename) {
 
-        $this->logger = $logger;
+        $this->logger = new Logging($this->rootPath . $filename);
 
     }
     /**
