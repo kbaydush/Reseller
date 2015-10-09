@@ -542,7 +542,7 @@
         public function httpResponseVerification($curl_status)
         {
 
-            $fp = fopen('storage', 'a+') or exit("Can't open storage file");
+            $fp = fopen('./data/storage', 'a+') or exit("Can't open storage file");
 
             if (flock($fp, LOCK_EX)) {
 

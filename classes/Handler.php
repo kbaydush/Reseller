@@ -81,7 +81,7 @@
 
             if($this->Request->getParams()['drop'] == true)
             {
-                $res = unlink($this->Request->getParams()->root_dir.'/storage');
+                $res = unlink($this->Request->getParams()->root_dir.'/data/storage');
                 if($res == true)
                 {
                     echo "File droped";
