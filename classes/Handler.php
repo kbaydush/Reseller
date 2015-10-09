@@ -8,8 +8,11 @@
 
     class Handler
     {
+        /** @var Logger_Interface  */
         private $error_log;
+        /** @var Logger_Interface  */
         private $query_log;
+
         private $Request;
 
         public function __construct($CFG, $formId)
@@ -20,11 +23,8 @@
             $CFG->processFormId = $formId;
 
 // set path and name of the log file (optionally)
-
-            $this->error_log = new Logging();
-            $this->query_log = clone $this->error_log;
-            $this->query_log->lfile($CFG->root_dir.'/logs/query.log');
-            $this->error_log->lfile($CFG->root_dir.'/logs/error.log');
+            $this->error_log = new Logging($CFG->root_dir.'/logs/error.log');
+            $this->query_log = new Logging($CFG->root_dir.'/logs/query.log');
 
             try {
                 $this->Request = new HttpRequestParser();
@@ -37,7 +37,8 @@
 
             } catch (Exception $e) {
                 header('HTTP/1.1 400 BAD_REQUEST');
-                $this->error_log->lwrite("Error: ".$e->getMessage());echo time();
+                $this->error_log->logError($e->getMessage());
+                echo time();
                 die();
             }
         }
@@ -60,7 +61,7 @@
 
             } catch (Exception $e) {
                 header('HTTP/1.1 400 BAD_REQUEST');
-                $this->error_log->lwrite("Error: ".$e->getMessage());
+                $this->error_log->logError($e->getMessage());
                 die();
             }
 
@@ -69,11 +70,8 @@
 
         function __destruct()
         {
-
-            if(!empty($this->query_log->fp))
-                $this->query_log->lclose();
-            if(!empty($this->error_log->fp))
-                $this->error_log->lclose();
+            unset( $this->query_log );
+            unset( $this->error_log );
 
             echo "Done.";
         }
@@ -87,7 +85,7 @@
                 if($res == true)
                 {
                     echo "File droped";
-                    $this->query_log->lwrite("Message: Data file storage (./storage) has been dropped.");
+                    $this->query_log->logInfo("Data file storage (./storage) has been dropped.");
                 }
                 die();
             }
@@ -99,26 +97,26 @@
                 try {
                     if($this->Request->loadStorage())
                     {
-                        $this->query_log->lwrite('Message: Request to storage has been started..........');
+                        $this->query_log->logInfo("Message: Request to storage has been started..........");
 
                         $response = $this->Request->handle();
 
                         foreach($response as $key => $val)
                         {
-                            $this->query_log->lwrite('Server URL: '.$val['mirror_url']);
-                            $this->query_log->lwrite('FormId: '.$val['formId']);
-                            $this->query_log->lwrite('Response: '.http_build_query($val));
+                            $this->query_log->logInfo('Server URL: ' . $val['mirror_url']);
+                            $this->query_log->logInfo('FormId: ' . $val['formId']);
+                            $this->query_log->logInfo('Response: ' . http_build_query($val));
                             if(!empty($response[$key]['status']))
                             {
                                 header('HTTP/1.1 400 BAD_REQUEST');
-                                $this->error_log->lwrite("Error: ".$response[$key]['status']);
+                                $this->error_log->logError($response[$key]['status']);
                             }
                         }
                     }
 
                 } catch (Exception $e) {
                     header('HTTP/1.1 400 BAD_REQUEST');
-                    $this->error_log->lwrite($e->getMessage());
+                    $this->error_log->logError( $e->getMessage() );
                     die();
                 }
 
@@ -140,17 +138,16 @@
                 $getRes = $this->Request->removeOldestPdf('/files', $this->Request->getConfig()->root_dir);
                 if(!empty($getRes) && $getRes['result'] == false)
                 {
-                    $this->error_log->lwrite('Error: PDF file - ' .$getRes['dirname'] . ' does not removed correctly. Lifetime is '. $this->Request->getConfig()->pdf_lifetime. ' ms');
-
+                    $this->error_log->logError('PDF file - ' . $getRes['dirname'] . ' does not removed correctly. Lifetime is ' . $this->Request->getConfig()->pdf_lifetime . ' ms');
                 }
                 $attach_pdf = $this->Request->genPDF($html, $style);
 
                 foreach($this->Request->rmdir as $key => $item)
                 {
-                    $this->query_log->lwrite('Message: File has been removed -  '.$item);
+                    $this->query_log->logInfo('File has been removed -  ' . $item);
 
                 }
-                $this->query_log->lwrite('Success: PDF saved in directory '.'files/'.$this->Request->getParam('OrderID'). '/SiteLicense-'.$this->Request->getParam('LicenseKey').'.pdf');
+                $this->query_log->logInfo('PDF saved in directory ' . 'files/' . $this->Request->getParam('OrderID') . '/SiteLicense-' . $this->Request->getParam('LicenseKey') . '.pdf');
             }
             else
             {
@@ -175,13 +172,14 @@
                     if($this->Request->getDebugMode('mail') == true)
                     {
                         $sent_result = $this->Request->send_mail($mailto, $attach_pdf, $this->Request->file_path);
-                        if($sent_result)
-                            $this->query_log->lwrite('Success: Mail is correctly sent to '. $mailto);
+                        if($sent_result){
+                            $this->query_log->logInfo('Mail is correctly sent to '. $mailto);
+                        }
                     }
 
                 } catch (Exception $e) {
-                    $this->error_log->lwrite("Error:". $e->getMessage());
-                    $this->error_log->lwrite("Error: Mail didn't sent");
+                    $this->error_log->logError( $e->getMessage() );
+                    $this->error_log->logError( "Mail didn't sent" );
                     die();
                 }
             }
@@ -214,7 +212,7 @@
 
             if(!$this->Request->getDebugMode('cron'))
             {
-                $this->query_log->lwrite('Notice: Cron disabled.');
+                $this->query_log->logInfo('Notice: Cron disabled.');
                 die();
 
             }
@@ -226,33 +224,31 @@
 
                     if(!$this->Request->loadStorage())
                     {
-                        $this->error_log->lwrite('Notice: Data file is empty.');
+                        $this->error_log->logInfo("Data file is empty.");
                     }
                     else
                     {
-                        $this->query_log->lwrite('Message: Request to the mirror has been started..........');
+                        $this->query_log->logInfo('Request to the mirror has been started..........');
 
                         $response = $this->Request->handle();
 
                         foreach($response as $key => $val)
                         {
-                            $this->query_log->lwrite('Server URL: '.$val['mirror_url']);
-                            $this->query_log->lwrite('FormId: '.$val['formId']);
-                            $this->query_log->lwrite('Response: '.http_build_query($val));
+                            $this->query_log->logInfo('Server URL: ' . $val['mirror_url']);
+                            $this->query_log->logInfo('FormId: ' . $val['formId']);
+                            $this->query_log->logInfo('Response: ' . http_build_query($val));
                             if(!empty($response[$key]['status']))
                             {
                                 header('HTTP/1.1 400 BAD_REQUEST');
-                                $this->error_log->lwrite($response[$key]['status']);
+                                $this->error_log->logError($response[$key]['status']);
                             }
                         }
                     }
 
                 } catch (Exception $e) {
-                    $this->error_log->lwrite($e->getMessage());
-
+                    $this->error_log->logError( $e->getMessage() );
                 }
             }
-
         }
+
     }
-?>
