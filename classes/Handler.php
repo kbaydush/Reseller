@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * PHP Class Handler
  * Created by K.Baidush
  * Handling the process
@@ -12,7 +12,7 @@
         private $error_log;
         /** @var Logger_Interface  */
         private $query_log;
-
+        /** @var HttpRequestParser */
         private $Request;
 
         public function __construct($CFG, $formId)
