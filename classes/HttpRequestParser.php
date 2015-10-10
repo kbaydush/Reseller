@@ -7,8 +7,8 @@
  * Redirect POST data to the mirror with CURL
  * Create PDF license and send mail
  */
-
-class HttpRequestParser {
+class HttpRequestParser
+{
 
 
     /** @var array - Config data */
@@ -20,7 +20,7 @@ class HttpRequestParser {
     /** @var array - Params from storage file */
     private $storage_params = array();
 
-    /** @var array - Сombined file's and requested params all together*/
+    /** @var array - Сombined file's and requested params all together */
     private $all_params = array();
 
     /** @var array - Debug mode params */
@@ -38,13 +38,11 @@ class HttpRequestParser {
 
     public function setConfig($config)
     {
-        if(isset($config) && !empty($config)) {
+        if (isset($config) && !empty($config)) {
             $this->config = $config;
 
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -57,28 +55,21 @@ class HttpRequestParser {
 
     /**
      *  To include params into html
-     *  @param string $html
-     *  @return string $html
+     * @param string $html
+     * @return string $html
      */
     public function varsToHtml($html)
     {
-        foreach($this->params as $params_key => $params_item)
-        {
-            if($params_key == 'OrderProductNames')
-            {
+        foreach ($this->params as $params_key => $params_item) {
+            if ($params_key == 'OrderProductNames') {
                 $opn = array('{#OrderProductNames#}' => $this->config->order_product_names[$this->params["OrderProductNames"]]);
                 $html = strtr($html, $opn);
 
-            }
-            else
-            {
-                if(!empty($params_item) && $params_item != '')
-                {
-                    $html = strtr($html, array('{#'.$params_key.'#}' => $params_item));
-                }
-                else if ($params_item == '' || !isset($params_item))
-                {
-                    $html = preg_replace('/{#'.$params_key.'#}<br>/i', '', $html);
+            } else {
+                if (!empty($params_item) && $params_item != '') {
+                    $html = strtr($html, array('{#' . $params_key . '#}' => $params_item));
+                } else if ($params_item == '' || !isset($params_item)) {
+                    $html = preg_replace('/{#' . $params_key . '#}<br>/i', '', $html);
 
                 }
             }
@@ -88,10 +79,11 @@ class HttpRequestParser {
         $html = preg_replace($arr, '', $html);
         return $html;
     }
+
     /**
      *  To setup debug params, using params from config by default
-     *  @param string $name, string $value
-     *  @return  HttpRequestParser
+     * @param string $name , string $value
+     * @return  HttpRequestParser
      */
 
     public function setDebugMode($name, $value)
@@ -101,32 +93,32 @@ class HttpRequestParser {
         return $this;
 
     }
+
     /**
      *  To get debug params
-     *  @param string $name
-     *  @return boolean $mode
+     * @param string $name
+     * @return boolean $mode
      */
     public function getDebugMode($name)
     {
 
-        if((isset($this->debug_mode[$name])
+        if ((isset($this->debug_mode[$name])
                 && $this->debug_mode[$name] == 0)
             || isset($this->debug_mode[$name])
             && $this->debug_mode[$name] != ''
-            && $this->debug_mode[$name] != null)
-        {
-            $mode =  $this->debug_mode[$name];
-        }
-        else
-        {
-            $mode =  $this->config->DEBUG_MODE_BY_DEFAULT[$name];
+            && $this->debug_mode[$name] != null
+        ) {
+            $mode = $this->debug_mode[$name];
+        } else {
+            $mode = $this->config->DEBUG_MODE_BY_DEFAULT[$name];
         }
         return $mode;
     }
+
     /**
      *  To set Url
-     *  @param string $url
-     *  @return HttpRequestParser
+     * @param string $url
+     * @return HttpRequestParser
      */
     public function setUrl($url)
     {
@@ -134,9 +126,10 @@ class HttpRequestParser {
 
         return $this;
     }
+
     /**
      *  To get Url
-     *  @return string
+     * @return string
      */
     public function getUrl()
     {
@@ -144,10 +137,11 @@ class HttpRequestParser {
         return $this->config->MIRROR_SERVERS[$this->getDebugMode('setmirror')];
 
     }
+
     /**
      *
-     *  @param string $action
-     *  @return boolean
+     * @param string $action
+     * @return boolean
      */
     public function initActionSet($action)
     {
@@ -156,12 +150,12 @@ class HttpRequestParser {
 
         $obj_arr = $setting_params->{$action}->{$this->config->processFormId};
 
-        for($i = 0; $i < count($obj_arr); $i++) {
-            foreach($obj_arr[$i] as $key => $val) {
+        for ($i = 0; $i < count($obj_arr); $i++) {
+            foreach ($obj_arr[$i] as $key => $val) {
 
                 if ($this->getParams()[$key] == $val
-                    || preg_match('/'.$val.'/', $this->getParams()[$key]))
-                {
+                    || preg_match('/' . $val . '/', $this->getParams()[$key])
+                ) {
                     return true;
                 }
             }
@@ -173,21 +167,20 @@ class HttpRequestParser {
 
     /**
      *  To validate request params
-     *  @param: array $var_arr
-     *  @return boolean
+     * @param: array $var_arr
+     * @return boolean
      */
     private function validate($var_arr)
     {
         $name = trim($var_arr[0]);
         $value = trim($var_arr[1]);
 
-        if(strlen($value) > 255) {
+        if (strlen($value) > 255) {
             $this->validError($name, $value);
         }
 
         $param_keys = array_keys($this->config->request_params[$this->config->processFormId]);
-        switch($name)
-        {
+        switch ($name) {
 
             case 'OrderID':
             case 'CustomerCompany':
@@ -206,66 +199,49 @@ class HttpRequestParser {
             case 'CustomerEmail':
 
                 $valid = filter_var($value, FILTER_VALIDATE_EMAIL);
-                if(!$valid)
-                {
-                    throw new \InvalidArgumentException("Email is not valid!: ". $name . " Value: ". $value);
+                if (!$valid) {
+                    throw new \InvalidArgumentException("Email is not valid!: " . $name . " Value: " . $value);
                 }
                 $this->params[$name] = $value;
                 break;
 
             case 'OrderProductNames':
 
-                if(array_key_exists($value, $this->config->order_product_names))
-                {
+                if (array_key_exists($value, $this->config->order_product_names)) {
                     $this->params[$name] = $value;
-                }
-                else if(!empty($value))
-                {
+                } else if (!empty($value)) {
                     $this->params[$name] = $value;
-                }
-                else
-                {
+                } else {
                     $this->validError($name, $value);
                 }
                 break;
 
             case 'formId':
             case 'formID':
-                if($value == $this->config->processFormId)
-                {
+                if ($value == $this->config->processFormId) {
                     $this->params[$name] = $value;
-                }
-                else
-                {
+                } else {
                     $this->validError($name, $value);
                 }
                 break;
             case 'productGroup':
-                if(isset($value) && !empty($value))
-                {
+                if (isset($value) && !empty($value)) {
                     $this->params[$name] = $value;
-                }
-                else
-                {
+                } else {
                     $this->validError($name, $value);
                 }
                 break;
 
             default:
 
-                if(in_array($name, $param_keys))
-                {
+                if (in_array($name, $param_keys)) {
                     $value = htmlentities($value);
                     $value = addslashes($value);
                     $this->params[$name] = $value;
-                }
-                else if(array_key_exists($name, $this->config->DEBUG_MODE_BY_DEFAULT))
-                {
+                } else if (array_key_exists($name, $this->config->DEBUG_MODE_BY_DEFAULT)) {
                     $this->setDebugMode($name, $value);
                     $this->params[$name] = $value;
-                }
-                else
-                {
+                } else {
                     $this->validError($name, $value);
                 }
         }
@@ -276,25 +252,25 @@ class HttpRequestParser {
     public function validError($name, $value)
     {
         //header('HTTP/1.1 400 BAD_REQUEST');
-        throw new \InvalidArgumentException("Wrong parameter! Name: ". $name . " Value: ". $value);
+        throw new \InvalidArgumentException("Wrong parameter! Name: " . $name . " Value: " . $value);
     }
 
     /**
      *  To sync each Mirror's name params
-     *  @param
-     *  @return array $_params
+     * @param
+     * @return array $_params
      */
     public function mirrorKeys()
     {
         $request_params = $this->config->request_params[$this->config->processFormId];
         $_params = array();
 
-        foreach($this->params as $key => $value)
-        {
+        foreach ($this->params as $key => $value) {
 
-            if(array_key_exists($key, $request_params)
+            if (array_key_exists($key, $request_params)
                 && !in_array($key, $this->config->params_disabled)
-                && !array_key_exists($key, $this->config->DEBUG_MODE_BY_DEFAULT))
+                && !array_key_exists($key, $this->config->DEBUG_MODE_BY_DEFAULT)
+            )
                 $_params[$request_params[$key]] = $value;
 
         }
@@ -306,12 +282,9 @@ class HttpRequestParser {
 
     public function setParam($name, $value)
     {
-        if($this->validate(array($name,$value)))
-        {
+        if ($this->validate(array($name, $value))) {
             return true;
-        }
-        else
-        {
+        } else {
             header('HTTP/1.1 400 BAD_REQUEST');
             throw new \InvalidArgumentException("Setup non specific params");
         }
@@ -325,8 +298,7 @@ class HttpRequestParser {
 
     public function setParams($post_params)
     {
-        foreach($post_params as $key => $value)
-        {
+        foreach ($post_params as $key => $value) {
             $this->setParam($key, $value);
 
         }
@@ -339,19 +311,16 @@ class HttpRequestParser {
 
     /**
      *  To load params from file
-     *  @Return: array
+     * @Return: array
      */
     public function loadStorage()
     {
-        if($this->getDebugMode('push') == true)
-        {
+        if ($this->getDebugMode('push') == true) {
 
-            $data_arr = file($this->config->root_dir.'/storage', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $data_arr = file($this->config->root_dir . '/storage', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-            if(!empty($data_arr))
-            {
-                foreach($data_arr as $key => $value)
-                {
+            if (!empty($data_arr)) {
+                foreach ($data_arr as $key => $value) {
                     parse_str($value, $data);
                     $this->storage_params[$key] = $data;
                 }
@@ -364,33 +333,27 @@ class HttpRequestParser {
     private function splitParams()
     {
         $this->all_params = $this->storage_params;
-        if(!empty($this->params))
-        {
+        if (!empty($this->params)) {
             array_push($this->all_params, $this->mirrorKeys());
         }
-        foreach($this->all_params as $data_key => $data_item)
-        {
-            if($this->getDebugMode('force') == true)
-            {
+        foreach ($this->all_params as $data_key => $data_item) {
+            if ($this->getDebugMode('force') == true) {
                 $this->all_params[$data_key]['mirror_url'] = $this->getUrl();
             }
         }
 
-        if(!empty($this->all_params))
-        {
+        if (!empty($this->all_params)) {
 
             return $this->all_params;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
     /**
      *  To remove of all pdf files that time was exceeded (The time has been set in config.php)
-     *  @param array $dir, string $structure
-     *  @return boolean
+     * @param array $dir , string $structure
+     * @return boolean
      */
     public function removeOldestPdf($dir, $structure = null)
     {
@@ -399,10 +362,11 @@ class HttpRequestParser {
         $folder = explode('/', $dir);
         $folder = array_pop($folder);
 
-        if (!file_exists($dir)) { return array('dirname' => $dir, 'result' => true);}
+        if (!file_exists($dir)) {
+            return array('dirname' => $dir, 'result' => true);
+        }
 
-        if ((!is_dir($dir) || is_link($dir)) && $folder != 'files')
-        {
+        if ((!is_dir($dir) || is_link($dir)) && $folder != 'files') {
             $this->rmdir[] = $dir;
             return array('dirname' => $dir, 'result' => unlink($dir));
         }
@@ -415,8 +379,7 @@ class HttpRequestParser {
                 $convert = $fstat['ctime'];
 
 
-                if(strtotime("+".$this->config->pdf_lifetime." seconds", $convert) < strtotime("now"))
-                {
+                if (strtotime("+" . $this->config->pdf_lifetime . " seconds", $convert) < strtotime("now")) {
                     $getRes = $this->removeOldestPdf($dir . "/" . $item);
                     if ($getRes['result'] == false) {
 //                            chmod($dir . "/" . $item, 0777);
@@ -426,11 +389,8 @@ class HttpRequestParser {
                 }
             }
 
-
-
-        if($folder != 'files')
-        {
-            if(is_file($dir))
+        if ($folder != 'files') {
+            if (is_file($dir))
                 $this->rmdir[] = $dir;
 
             return rmdir($dir);
@@ -440,8 +400,7 @@ class HttpRequestParser {
 
     public function handle()
     {
-        if($this->loadStorage())
-        {
+        if ($this->loadStorage()) {
             $Response = $this->doHttpRequest();
 
             return $Response;
@@ -452,15 +411,11 @@ class HttpRequestParser {
     private function doHttpRequest()
     {
 
-        foreach($this->all_params as $param_key => &$param_value_array)
-        {
+        foreach ($this->all_params as $param_key => &$param_value_array) {
 
-            if($this->getDebugMode('force'))
-            {
+            if ($this->getDebugMode('force')) {
                 $url = $this->getUrl();
-            }
-            else
-            {
+            } else {
                 $url = $this->all_params[$param_key]['mirror_url'];
             }
 
@@ -476,8 +431,8 @@ class HttpRequestParser {
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch , CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch , CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
             curl_setopt($ch, CURLOPT_VERBOSE, 1);
@@ -491,7 +446,7 @@ class HttpRequestParser {
             curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($param_value_array));
 
-            curl_setopt($ch, CURLOPT_STDERR, fopen($this->config->root_dir.'/logs/curl.log', 'a+'));
+            curl_setopt($ch, CURLOPT_STDERR, fopen($this->config->root_dir . '/logs/curl.log', 'a+'));
 
             $res = curl_exec($ch);
             $response[$param_key] = curl_getinfo($ch);
@@ -514,9 +469,8 @@ class HttpRequestParser {
 
         //check unicode
         $only_latin = true;
-        foreach($_params as $key => $item) {
-            if(strlen($item) != strlen(utf8_decode($item)))
-            {
+        foreach ($_params as $key => $item) {
+            if (strlen($item) != strlen(utf8_decode($item))) {
                 $only_latin = false;
             }
         }
@@ -528,12 +482,12 @@ class HttpRequestParser {
 //        $mpdf->SetAutoFont(AUTOFONT_CJK);
 
         $mpdf->simpleTables = true;
-        $mpdf->useSubstitutions=false;
+        $mpdf->useSubstitutions = false;
 
         $mpdf->SetTitle($this->config->pdf_title);
         $mpdf->SetAuthor($this->config->pdf_author);
 
-        if(!empty($style))
+        if (!empty($style))
             $mpdf->WriteHTML($style, 1);
 
         $mpdf->list_indent_first_level = 0;
@@ -542,21 +496,20 @@ class HttpRequestParser {
 
         $structure = $this->config->root_dir;
 
-        if(!file_exists($structure.'/files/'.$this->getParam('OrderID')))
-            if (!mkdir($structure.'/files/'.$this->getParam('OrderID'), 0777, true))
-            {
+        if (!file_exists($structure . '/files/' . $this->getParam('OrderID')))
+            if (!mkdir($structure . '/files/' . $this->getParam('OrderID'), 0777, true)) {
                 throw new \InvalidArgumentException('Failed to create folders...');
             }
 
-        $this->file_path = $structure.'/files/'.$this->getParam('OrderID'). '/SiteLicense-'.$this->getParam('LicenseKey').'.pdf';
+        $this->file_path = $structure . '/files/' . $this->getParam('OrderID') . '/SiteLicense-' . $this->getParam('LicenseKey') . '.pdf';
         $mpdf->Output($this->file_path, 'F');
         return true;
     }
 
     /**
      *  To check response
-     *  @param array $curl_status
-     *  @return array $curl_status
+     * @param array $curl_status
+     * @return array $curl_status
      */
     public function httpResponseVerification($curl_status)
     {
@@ -565,41 +518,29 @@ class HttpRequestParser {
 
         if (flock($fp, LOCK_EX)) {
 
-            if($this->getDebugMode('push') == true)
+            if ($this->getDebugMode('push') == true)
                 ftruncate($fp, 0);
 
-            foreach($curl_status as $st_key => $st_value)
-            {
+            foreach ($curl_status as $st_key => $st_value) {
 
                 $curl_status[$st_key]['mirror_url'] = $this->all_params[$st_key]['mirror_url'];
 
-                if($st_value['http_code'] == 0)
-                {
+                if ($st_value['http_code'] == 0) {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Server unavailable.";
 
-                }
-                else if ($st_value['http_code'] == 503)
-                {
+                } else if ($st_value['http_code'] == 503) {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Service unavailable.";
-                }
-                else if ($st_value['http_code'] == 404)
-                {
+                } else if ($st_value['http_code'] == 404) {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Page not found.";
-                }
-                else if (in_array($st_value['redirect_url'], $this->config->response_wrong))
-                {
+                } else if (in_array($st_value['redirect_url'], $this->config->response_wrong)) {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Mirror does return error. Data does not submitted.";
-                }
-                else if(in_array($st_value['redirect_url'], $this->config->response_successfull))
-                {
+                } else if (in_array($st_value['redirect_url'], $this->config->response_successfull)) {
                     echo "Success: Form data has been submited successfully! <br>";
-                }
-                else
-                {
+                } else {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Wrong response! Mirror server does not returned the 302 redirect.";
                 }
@@ -615,8 +556,8 @@ class HttpRequestParser {
 
     /**
      *  To sending Mail
-     *  @param string $mailto, boolean $attach_pdf, string $file_path
-     *  @return boolean
+     * @param string $mailto , boolean $attach_pdf, string $file_path
+     * @return boolean
      */
 
     public function send_mail($mailto, $attach_pdf, $file_path = null)
@@ -624,16 +565,14 @@ class HttpRequestParser {
 
         $params = $this->getParams();
         $str_params = '';
-        foreach($params as $key => $val)
-        {
-            $str_params .= $key . ' : '. $val . ' ; ';
+        foreach ($params as $key => $val) {
+            $str_params .= $key . ' : ' . $val . ' ; ';
         }
 
-        if($attach_pdf == true)
-        {
+        if ($attach_pdf == true) {
             $file = fopen($file_path, "rb");
 
-            $data = fread( $file, filesize( $file_path ));
+            $data = fread($file, filesize($file_path));
 
             fclose($file);
 
@@ -643,9 +582,9 @@ class HttpRequestParser {
         $from_name = 'SomeCompanyName Orders';
         $from_mail = $this->config->mail_from;
         $uid = md5(uniqid(time()));
-        $subject = 'Your ' . $this->getParam('OrderProductNames') .' Delivery Information';
-        $filename = 'SiteLicense-'.$this->getParam('LicenseKey').'.pdf';
-        $message =  <<<EOM
+        $subject = 'Your ' . $this->getParam('OrderProductNames') . ' Delivery Information';
+        $filename = 'SiteLicense-' . $this->getParam('LicenseKey') . '.pdf';
+        $message = <<<EOM
 <html><body>
 Dear {$this->params['CustomerFirstName']} {$this->params['CustomerLastName']},<br/>
 <br/>
