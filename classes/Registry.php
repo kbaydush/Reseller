@@ -1,6 +1,6 @@
 <?php
 
-class Registry
+class Registry implements Registry_Interface
 {
     private $container = array();
 

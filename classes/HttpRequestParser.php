@@ -11,7 +11,7 @@ class HttpRequestParser
 {
 
 
-    /** @var array - Config data */
+    /** @var Registry */
     private $config;
 
     /** @var array - Request params */
@@ -196,7 +196,7 @@ class HttpRequestParser
 
                 $valid = filter_var($value, FILTER_VALIDATE_EMAIL);
                 if (!$valid) {
-                    throw new \InvalidArgumentException("Email is not valid!: " . $name . " Value: " . $value);
+                    throw new \InvalidArgumentException("Email is not valid: " . $name . " Value: " . $value);
                 }
                 $this->params[$name] = $value;
                 break;

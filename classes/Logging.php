@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * PHP Class Logging
  * Created by K.Baidush
  * Write log files

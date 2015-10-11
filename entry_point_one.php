@@ -8,6 +8,4 @@ $Handler = new Handler($CFG, $CFG->get('all_form_id_array')['purchases']);
 
     $Handler->action();
 
-
-
 ?>
