@@ -38,13 +38,8 @@ class HttpRequestParser
 
     public function setConfig($config)
     {
-        if (isset($config) && !empty($config)) {
-            $this->config = $config;
-
-            return true;
-        } else {
-            return false;
-        }
+        $this->config = $config;
+        return $this;
     }
 
     public function getConfig()
@@ -62,7 +57,7 @@ class HttpRequestParser
     {
         foreach ($this->params as $params_key => $params_item) {
             if ($params_key == 'OrderProductNames') {
-                $opn = array('{#OrderProductNames#}' => $this->config->order_product_names[$this->params["OrderProductNames"]]);
+                $opn = array('{#OrderProductNames#}' => $this->config->get('order_product_names')[$this->params["OrderProductNames"]]);
                 $html = strtr($html, $opn);
 
             } else {
@@ -110,7 +105,7 @@ class HttpRequestParser
         ) {
             $mode = $this->debug_mode[$name];
         } else {
-            $mode = $this->config->DEBUG_MODE_BY_DEFAULT[$name];
+            $mode = $this->config->get('DEBUG_MODE_BY_DEFAULT')[$name];
         }
         return $mode;
     }
@@ -134,7 +129,7 @@ class HttpRequestParser
     public function getUrl()
     {
 
-        return $this->config->MIRROR_SERVERS[$this->getDebugMode('setmirror')];
+        return $this->config->get('MIRROR_SERVERS')[$this->getDebugMode('setmirror')];
 
     }
 
@@ -148,7 +143,7 @@ class HttpRequestParser
 
         $setting_params = json_decode($this->getDebugMode($action));
 
-        $obj_arr = $setting_params->{$action}->{$this->config->processFormId};
+        $obj_arr = $setting_params->{$action}->{$this->config->get('processFormId')};
 
         for ($i = 0; $i < count($obj_arr); $i++) {
             foreach ($obj_arr[$i] as $key => $val) {
@@ -179,7 +174,8 @@ class HttpRequestParser
             $this->validError($name, $value);
         }
 
-        $param_keys = array_keys($this->config->request_params[$this->config->processFormId]);
+        $param_keys = array_keys($this->config->get('request_params')[$this->config->get('processFormId')]);
+
         switch ($name) {
 
             case 'OrderID':
@@ -207,7 +203,7 @@ class HttpRequestParser
 
             case 'OrderProductNames':
 
-                if (array_key_exists($value, $this->config->order_product_names)) {
+                if (array_key_exists($value, $this->config->get('order_product_names'))) {
                     $this->params[$name] = $value;
                 } else if (!empty($value)) {
                     $this->params[$name] = $value;
@@ -218,7 +214,7 @@ class HttpRequestParser
 
             case 'formId':
             case 'formID':
-                if ($value == $this->config->processFormId) {
+            if ($value == $this->config->get('processFormId')) {
                     $this->params[$name] = $value;
                 } else {
                     $this->validError($name, $value);
@@ -238,7 +234,7 @@ class HttpRequestParser
                     $value = htmlentities($value);
                     $value = addslashes($value);
                     $this->params[$name] = $value;
-                } else if (array_key_exists($name, $this->config->DEBUG_MODE_BY_DEFAULT)) {
+                } else if (array_key_exists($name, $this->config->get('DEBUG_MODE_BY_DEFAULT'))) {
                     $this->setDebugMode($name, $value);
                     $this->params[$name] = $value;
                 } else {
@@ -262,14 +258,14 @@ class HttpRequestParser
      */
     public function mirrorKeys()
     {
-        $request_params = $this->config->request_params[$this->config->processFormId];
+        $request_params = $this->config->get('request_params')[$this->config->get('processFormId')];
         $_params = array();
 
         foreach ($this->params as $key => $value) {
 
             if (array_key_exists($key, $request_params)
-                && !in_array($key, $this->config->params_disabled)
-                && !array_key_exists($key, $this->config->DEBUG_MODE_BY_DEFAULT)
+                && !in_array($key, $this->config->get('params_disabled'))
+                && !array_key_exists($key, $this->config->get('DEBUG_MODE_BY_DEFAULT'))
             )
                 $_params[$request_params[$key]] = $value;
 
@@ -317,7 +313,7 @@ class HttpRequestParser
     {
         if ($this->getDebugMode('push') == true) {
 
-            $data_arr = file($this->config->root_dir . '/storage', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $data_arr = file($this->config->get('root_dir') . '/storage', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
             if (!empty($data_arr)) {
                 foreach ($data_arr as $key => $value) {
@@ -379,7 +375,7 @@ class HttpRequestParser
                 $convert = $fstat['ctime'];
 
 
-                if (strtotime("+" . $this->config->pdf_lifetime . " seconds", $convert) < strtotime("now")) {
+                if (strtotime("+" . $this->config->get('pdf_lifetime') . " seconds", $convert) < strtotime("now")) {
                     $getRes = $this->removeOldestPdf($dir . "/" . $item);
                     if ($getRes['result'] == false) {
 //                            chmod($dir . "/" . $item, 0777);
@@ -446,7 +442,7 @@ class HttpRequestParser
             curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($param_value_array));
 
-            curl_setopt($ch, CURLOPT_STDERR, fopen($this->config->root_dir . '/logs/curl.log', 'a+'));
+            curl_setopt($ch, CURLOPT_STDERR, fopen($this->config->get('root_dir') . '/logs/curl.log', 'a+'));
 
             $res = curl_exec($ch);
             $response[$param_key] = curl_getinfo($ch);
@@ -484,8 +480,8 @@ class HttpRequestParser
         $mpdf->simpleTables = true;
         $mpdf->useSubstitutions = false;
 
-        $mpdf->SetTitle($this->config->pdf_title);
-        $mpdf->SetAuthor($this->config->pdf_author);
+        $mpdf->SetTitle($this->config->get('pdf_title'));
+        $mpdf->SetAuthor($this->config->get('pdf_author'));
 
         if (!empty($style))
             $mpdf->WriteHTML($style, 1);
@@ -494,7 +490,7 @@ class HttpRequestParser
 
         $mpdf->WriteHTML($html_to_pdf, 2);
 
-        $structure = $this->config->root_dir;
+        $structure = $this->config->get('root_dir');
 
         if (!file_exists($structure . '/files/' . $this->getParam('OrderID')))
             if (!mkdir($structure . '/files/' . $this->getParam('OrderID'), 0777, true)) {
@@ -535,10 +531,10 @@ class HttpRequestParser
                 } else if ($st_value['http_code'] == 404) {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Page not found.";
-                } else if (in_array($st_value['redirect_url'], $this->config->response_wrong)) {
+                } else if (in_array($st_value['redirect_url'], $this->config->get('response_wrong'))) {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Mirror does return error. Data does not submitted.";
-                } else if (in_array($st_value['redirect_url'], $this->config->response_successfull)) {
+                } else if (in_array($st_value['redirect_url'], $this->config->get('response_successfull'))) {
                     echo "Success: Form data has been submited successfully! <br>";
                 } else {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
@@ -580,7 +576,7 @@ class HttpRequestParser
         }
 
         $from_name = 'SomeCompanyName Orders';
-        $from_mail = $this->config->mail_from;
+        $from_mail = $this->config->get('mail_from');
         $uid = md5(uniqid(time()));
         $subject = 'Your ' . $this->getParam('OrderProductNames') . ' Delivery Information';
         $filename = 'SiteLicense-' . $this->getParam('LicenseKey') . '.pdf';

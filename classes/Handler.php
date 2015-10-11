@@ -19,24 +19,25 @@ class Handler
 
 // Set real formId
 
-        $CFG->processFormId = $formId;
+        $CFG->set('processFormId', $formId);
 
 // set path and name of the log file (optionally)
-        $this->error_log = new Logging($CFG->root_dir . '/logs/error.log');
-        $this->query_log = new Logging($CFG->root_dir . '/logs/query.log');
+        $this->error_log = new Logging($CFG->logs_dir . 'error.log');
+        $this->query_log = new Logging($CFG->logs_dir . 'query.log');
 
         try {
             $this->Request = new HttpRequestParser();
 
-            if (empty($CFG->processFormId) || !$this->Request->setConfig($CFG)) {
+            if (empty($CFG) || !isset($CFG)) {
                 throw new \InvalidArgumentException("Bootstrap failed!");
 
+            } else {
+                $this->Request->setConfig($CFG);
             }
 
         } catch (Exception $e) {
             header('HTTP/1.1 400 BAD_REQUEST');
             $this->error_log->logError($e->getMessage());
-            echo time();
             die();
         }
     }
@@ -45,7 +46,7 @@ class Handler
     {
         try {
 
-            if ($this->Request->getConfig()->processFormId != 'cron')
+            if ($this->Request->getConfig()->get('processFormId') != 'cron')
                 if (count($POST) > 0) {
 
                     $this->Request->setParams($POST);
@@ -117,18 +118,18 @@ class Handler
 // Generate PDF
 
         if ($this->Request->getDebugMode('pdf')) {
-            require_once $this->Request->getConfig()->root_dir . "/lib/MPDF57/mpdf.php";
+            require_once $this->Request->getConfig()->get('root_dir') . "/lib/MPDF57/mpdf.php";
             $replacement = '@separator@';
-            $html = file_get_contents($this->Request->getConfig()->root_dir . '/SiteLicense.html');
+            $html = file_get_contents($this->Request->getConfig()->get('root_dir') . '/SiteLicense.html');
             $search = preg_replace("#(.*)<style>(.*?)</style>(.*)#is", "$1{$replacement}$2{$replacement}$3", $html);
             $array_html = explode('@separator@', $search);
             $head = $array_html[0];
             $style = $array_html[1];
             $body = $array_html[2];
             $html = $head . $body;
-            $getRes = $this->Request->removeOldestPdf('/files', $this->Request->getConfig()->root_dir);
+            $getRes = $this->Request->removeOldestPdf('/files', $this->Request->getConfig()->get('root_dir'));
             if (!empty($getRes) && $getRes['result'] == false) {
-                $this->error_log->logError('PDF file - ' . $getRes['dirname'] . ' does not removed correctly. Lifetime is ' . $this->Request->getConfig()->pdf_lifetime . ' ms');
+                $this->error_log->logError('PDF file - ' . $getRes['dirname'] . ' does not removed correctly. Lifetime is ' . $this->Request->getConfig()->get('pdf_lifetime') . ' ms');
             }
             $attach_pdf = $this->Request->genPDF($html, $style);
 
@@ -147,7 +148,7 @@ class Handler
             try {
 
                 if ($this->Request->getDebugMode('mail_test') == true) {
-                    $mailto = $this->Request->getConfig()->test_mail;
+                    $mailto = $this->Request->getConfig()->get('test_mail');
                 } else {
                     $mailto = $this->Request->getParam('CustomerEmail');
                 }
@@ -174,7 +175,7 @@ class Handler
             echo "CONFIG: ";
             echo "<br/>";
             echo "<br/>";
-            print_r($this->Request->getConfig(), 0);
+            print_r($this->Request->getConfig()->getAll(), 0);
             echo "<br/>";
             echo "<br/>";
             echo "REQUEST PARAMS: ";
@@ -188,8 +189,6 @@ class Handler
 
     public function actionCron()
     {
-
-        $this->Request->getConfig()->processFormId = 'cron';
 
         if (!$this->Request->getDebugMode('cron')) {
             $this->query_log->logInfo('Notice: Cron disabled.');
