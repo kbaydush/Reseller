@@ -1,6 +1,6 @@
 This script can do:
 
-- sync request parameters with defined corresponding params in config file
+- sync request parameters between other servers through http request with defined corresponding params in config file
 - makes the curl http request with new sync parameters to the mirror site which you can set in config file
 - generates PDF file with license agreement
 - send mail to user with license agreement
