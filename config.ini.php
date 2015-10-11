@@ -3,9 +3,9 @@
 $CFG = new Registry();
 
 $CFG->set('root_dir', dirname(__FILE__));
-$CFG->set('classes_dir', realpath($CFG->root_dir . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR));
-$CFG->set('logs_dir', realpath($CFG->root_dir . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR));
-$CFG->set('libs_dir', realpath($CFG->root_dir . DIRECTORY_SEPARATOR . "lib" . DIRECTORY_SEPARATOR));
+$CFG->set('classes_dir', $CFG->get('root_dir') . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR);
+$CFG->set('logs_dir', $CFG->get('root_dir') . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR);
+$CFG->set('libs_dir', $CFG->get('root_dir') . DIRECTORY_SEPARATOR . "lib" . DIRECTORY_SEPARATOR);
 
 $CFG->set('mail_from', 'orders@testsite.localhost');
 $CFG->set('test_mail', 'averskos@gmail.com');

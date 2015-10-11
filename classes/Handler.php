@@ -22,8 +22,8 @@ class Handler
         $CFG->set('processFormId', $formId);
 
 // set path and name of the log file (optionally)
-        $this->error_log = new Logging($CFG->logs_dir . 'error.log');
-        $this->query_log = new Logging($CFG->logs_dir . 'query.log');
+        $this->error_log = new Logging($CFG->get('logs_dir') . 'error.log');
+        $this->query_log = new Logging($CFG->get('logs_dir') . 'query.log');
 
         try {
             $this->Request = new HttpRequestParser();
