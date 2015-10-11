@@ -12,8 +12,6 @@ $loader->setRootPath(realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . "classes
 
 Autoloader::register($loader);
 
-$loader->setLogger('error.log');
-
 global $CFG;
 
 $CFG = new stdClass();

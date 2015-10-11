@@ -5,14 +5,10 @@
  * Created by K.Baidush
  *
  */
-
 class Autoloader implements Autoloader_Interface
 {
     /** @var  string */
     protected $rootPath;
-    /** @var  Logger_Interface */
-    protected $logger = null;
-
 
     /**
      * @param Autoloader_Interface $loader
@@ -22,11 +18,6 @@ class Autoloader implements Autoloader_Interface
         spl_autoload_register(array($loader, 'loadClass'));
     }
 
-    public function setLogger($filename) {
-
-        $this->logger = new Logging($this->rootPath . $filename);
-
-    }
     /**
      * @param string $realPath
      * @return Autoloader
@@ -48,18 +39,22 @@ class Autoloader implements Autoloader_Interface
 
         $classPath = $this->prepareClassPath($className);
 
-        if (!$this->tryLoadClass($classPath)) {
+        $this->tryLoadClass($classPath);
 
-            if (!is_null($this->logger)) {
-                $this->logger->logError("Cant load class " . $className);
-            }
+        /*
+                if (!$this->tryLoadClass($classPath)) {
 
-            throw new Exception("Can`t load class " . $className);
-        } else {
-            if (!is_null($this->logger)) {
-                $this->logger->logInfo(sprintf("Class %s was loaded from %sn", $className, $classPath));
-            }
-        }
+                    if (!is_null($this->logger)) {
+                        $this->logger->logError("Cant load class " . $className);
+                    }
+
+                    throw new Exception("Can`t load class " . $className);
+                } else {
+                    if (!is_null($this->logger)) {
+                        $this->logger->logInfo(sprintf("Class %s was loaded from %sn", $className, $classPath));
+                    }
+                }
+        */
     }
 
     /**
