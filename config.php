@@ -1,22 +1,11 @@
 <?php
-// init autoloader
-error_reporting(E_ALL ^ E_NOTICE);
-ini_set('display_errors', true);
-date_default_timezone_set('UTC');
-
-require_once(dirname(__FILE__) . '/classes/Autoloader/Interface.php');
-require_once(dirname(__FILE__) . '/classes/Autoloader.php');
-
-$loader = new Autoloader();
-$loader->setRootPath(realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR));
-
-Autoloader::register($loader);
-
-global $CFG;
 
 $CFG = new stdClass();
 
 $CFG->root_dir = dirname(__FILE__);
+$CFG->classes_dir = realpath($CFG->root_dir . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR);
+$CFG->logs_dir = realpath($CFG->root_dir . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR);
+$CFG->libs_dir = realpath($CFG->root_dir . DIRECTORY_SEPARATOR . "libs" . DIRECTORY_SEPARATOR);
 
 $CFG->mail_from = 'orders@testsite.localhost';
 $CFG->test_mail = 'averskos@gmail.com';

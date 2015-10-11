@@ -1,6 +1,6 @@
 <?php
 
-    require_once dirname(__FILE__)."/config.php";
+require_once dirname(__FILE__) . "/init.php";
 
     $Handler = new Handler($CFG, $CFG->all_form_id_array['purchases']);
 
