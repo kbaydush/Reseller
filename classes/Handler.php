@@ -83,7 +83,7 @@ class Handler
             $res = unlink($this->Request->getParams()->root_dir . '/data/storage');
             if ($res == true) {
                 echo "File droped";
-                $this->query_log->logInfo("Data file storage (./data/storage) has been dropped.");
+                $this->query_log->logInfo("Data file (./data/storage) has been dropped.");
             }
             die();
         }

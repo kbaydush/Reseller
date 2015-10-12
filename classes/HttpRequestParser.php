@@ -350,7 +350,6 @@ class HttpRequestParser
      */
     public function removeOldestPdf($dir, $structure = null)
     {
-
         $dir = $structure . $dir;
         $folder = explode('/', $dir);
         $folder = array_pop($folder);
@@ -366,7 +365,8 @@ class HttpRequestParser
 
         if (!is_file($dir))
             foreach (scandir($dir) as $item) {
-                if ($item == '.' || $item == '..') continue;
+
+                if ($item == '.' || $item == '..' || $item == 'SiteLicense.html') continue;
                 $fstat = stat($dir . "/" . $item);
 
                 $convert = $fstat['ctime'];
@@ -379,7 +379,8 @@ class HttpRequestParser
                         $getRes = $this->removeOldestPdf($dir . "/" . $item);
                         if ($getRes['result'] == false) return array('dirname' => $dir . "/" . $item, 'result' => false);
                     }
-                }
+                    }
+
             }
 
         if ($folder != 'files') {
