@@ -121,7 +121,7 @@ class Handler
         if ($this->Request->getDebugMode('pdf')) {
             require_once $this->Request->getConfig()->get('root_dir') . "/lib/MPDF57/mpdf.php";
             $replacement = '@separator@';
-            $html = file_get_contents($this->Request->getConfig()->get('root_dir') . '/SiteLicense.html');
+            $html = file_get_contents($this->Request->getConfig()->get('root_dir') . '/data/SiteLicense.html');
             $search = preg_replace("#(.*)<style>(.*?)</style>(.*)#is", "$1{$replacement}$2{$replacement}$3", $html);
             $array_html = explode('@separator@', $search);
             $head = $array_html[0];
