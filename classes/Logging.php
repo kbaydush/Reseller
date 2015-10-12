@@ -1,9 +1,10 @@
 <?php
 
 /**
- * PHP Class Logging
- * Created by K.Baidush
- * Write log files
+ * {license_notice}
+ *
+ * @copyright   baidush.k
+ * @license     {license_link}
  */
 
 class Logging implements Logger_Interface

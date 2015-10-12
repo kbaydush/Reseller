@@ -1,9 +1,10 @@
 <?php
 
 /**
- * PHP Class Autoloader
- * Created by K.Baidush
+ * {license_notice}
  *
+ * @copyright   baidush.k
+ * @license     {license_link}
  */
 class Autoloader implements Autoloader_Interface
 {

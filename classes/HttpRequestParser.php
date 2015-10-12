@@ -1,11 +1,10 @@
 <?php
 
 /**
- * PHP Class HttpRequestParser
- * Created by K.Baidush
- * Generate html to pdf,
- * Redirect POST data to the mirror with CURL
- * Create PDF license and send mail
+ * {license_notice}
+ *
+ * @copyright   baidush.k
+ * @license     {license_link}
  */
 class HttpRequestParser
 {
@@ -78,14 +77,12 @@ class HttpRequestParser
     /**
      *  To setup debug params, using params from config by default
      * @param string $name , string $value
-     * @return  HttpRequestParser
+     * @return  void
      */
 
     public function setDebugMode($name, $value)
     {
         $this->debug_mode[$name] = $value;
-
-        return $this;
 
     }
 

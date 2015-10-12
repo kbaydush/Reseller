@@ -3,7 +3,7 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
+ * @copyright   baidush.k
  * @license     {license_link}
  */
 interface Registry_Interface

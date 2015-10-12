@@ -8,7 +8,6 @@
  */
 interface Logger_Interface
 {
-
     /**
      * @param string $message
      * @return void

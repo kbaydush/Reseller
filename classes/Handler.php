@@ -1,9 +1,10 @@
 <?php
 
 /**
- * PHP Class Handler
- * Created by K.Baidush
- * Handling the process
+ * {license_notice}
+ *
+ * @copyright   baidush.k
+ * @license     {license_link}
  */
 class Handler
 {

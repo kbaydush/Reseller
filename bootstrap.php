@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: k.baidush
+ * {license_notice}
+ *
+ * @copyright   baidush.k
+ * @license     {license_link}
  */
-
 
 // init autoloader
 error_reporting(E_ALL ^ E_NOTICE);
