@@ -83,7 +83,7 @@ class Handler
             $res = unlink($this->Request->getParams()->root_dir . '/data/storage');
             if ($res == true) {
                 echo "File droped";
-                $this->query_log->logInfo("Data file storage (./storage) has been dropped.");
+                $this->query_log->logInfo("Data file storage (./data/storage) has been dropped.");
             }
             die();
         }
@@ -93,7 +93,7 @@ class Handler
         if ($this->Request->getDebugMode('request') == true) {
             try {
                 if ($this->Request->loadStorage()) {
-                    $this->query_log->logInfo("Message: Request to storage has been started..........");
+                    $this->query_log->logInfo("Message: Request to the mirror has been started..........");
 
                     $response = $this->Request->handle();
 
@@ -121,7 +121,7 @@ class Handler
         if ($this->Request->getDebugMode('pdf')) {
             require_once $this->Request->getConfig()->get('root_dir') . "/lib/MPDF57/mpdf.php";
             $replacement = '@separator@';
-            $html = file_get_contents($this->Request->getConfig()->get('root_dir') . '/data/SiteLicense.html');
+            $html = file_get_contents($this->Request->getConfig()->get('root_dir') . '/files/SiteLicense.html');
             $search = preg_replace("#(.*)<style>(.*?)</style>(.*)#is", "$1{$replacement}$2{$replacement}$3", $html);
             $array_html = explode('@separator@', $search);
             $head = $array_html[0];
