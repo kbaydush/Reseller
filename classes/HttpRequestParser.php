@@ -244,12 +244,11 @@ class HttpRequestParser
 
     public function validError($name, $value)
     {
-        //header('HTTP/1.1 400 BAD_REQUEST');
         throw new \InvalidArgumentException("Wrong parameter! Name: " . $name . " Value: " . $value);
     }
 
     /**
-     *  To sync each Mirror's name params
+     *  To sync each of Mirror's param
      * @param
      * @return array $_params
      */
@@ -384,10 +383,11 @@ class HttpRequestParser
             }
 
         if ($folder != 'files') {
-            if (is_file($dir))
+//            if (is_file($dir)) {
                 $this->rmdir[] = $dir;
 
             return rmdir($dir);
+//            }
         }
 
     }
