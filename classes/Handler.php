@@ -119,7 +119,7 @@ class Handler
 // Generate PDF
 
         if ($this->Request->getDebugMode('pdf')) {
-            //require_once $this->Request->getConfig()->get('root_dir') . "/lib/MPDF57/mpdf.php";
+
             $replacement = '@separator@';
             $html = file_get_contents($this->Request->getConfig()->get('root_dir') . '/files/SiteLicense.html');
             $search = preg_replace("#(.*)<style>(.*?)</style>(.*)#is", "$1{$replacement}$2{$replacement}$3", $html);
