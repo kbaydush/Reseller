@@ -15,8 +15,9 @@ $CFG->set('pdf_author', 'SomeCompanyName Inc.');
 // Here you can add any form id which we need
 
 $CFG->set('all_form_id_array', array(
-    'purchases' => 10,
-    'refunds' => 11
+    'purchases' => 1,
+    'refunds' => 2
+
 ));
 
 
@@ -48,9 +49,9 @@ $CFG->set('MIRROR_SERVERS', array(
 
 // Purchases params
 
-$CFG->set('request_params',
+$CFG->set('request_params', array(
 
-    [
+
         $CFG->get('all_form_id_array')['purchases'] => array(
             'id' => 'mirrorId',
             'name' => 'mirrorName',
@@ -60,9 +61,9 @@ $CFG->set('request_params',
             'CustomerCompany' => 'mirrorCustomerCompany',
             'security_data' => 'security_data',
             'security_hash' => 'security_hash'
-        )],
+        ),
 
-    [
+
         $CFG->get('all_form_id_array')['refunds'] => array(
             'id' => 'mirrorId',
             'name' => 'mirrorName',
@@ -72,7 +73,8 @@ $CFG->set('request_params',
             'CustomerCompany' => 'mirrorCustomerCompany',
             'security_data' => 'security_data',
             'security_hash' => 'security_hash')
-    ]);
+    )
+);
 
 // Data does not going to mirror
 $CFG->set('params_disabled', array(

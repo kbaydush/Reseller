@@ -218,7 +218,7 @@ class HttpRequestParser
 
             case 'formId':
             case 'formID':
-                if ($value == $this->processFormId) {
+                if (intval($value)) {
                     $this->params[$name] = $value;
                 } else {
                     $this->validError($name, $value);
