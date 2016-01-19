@@ -8,6 +8,7 @@
  */
 class HttpRequestParser
 {
+    protected $processFormId = Handler_Cron::PROCESS_FORM;
 
 
     /** @var Registry */
@@ -35,16 +36,22 @@ class HttpRequestParser
 
     public $mail_headers;
 
-    public function setConfig($config)
+    /**
+     * @param Registry $config
+     * @return $this
+     */
+    public function setConfig(Registry $config)
     {
         $this->config = $config;
         return $this;
     }
 
+    /**
+     * @return Registry
+     */
     public function getConfig()
     {
         return $this->config;
-
     }
 
     /**
@@ -131,7 +138,7 @@ class HttpRequestParser
     }
 
     /**
-     *
+     * @deprecated
      * @param string $action
      * @return boolean
      */
@@ -140,7 +147,7 @@ class HttpRequestParser
 
         $setting_params = json_decode($this->getDebugMode($action));
 
-        $obj_arr = $setting_params->{$action}->{$this->config->get('processFormId')};
+        $obj_arr = $setting_params->{$action}->{$this->processFormId};
 
         for ($i = 0; $i < count($obj_arr); $i++) {
             foreach ($obj_arr[$i] as $key => $val) {
@@ -171,7 +178,7 @@ class HttpRequestParser
             $this->validError($name, $value);
         }
 
-        $param_keys = array_keys($this->config->get('request_params')[$this->config->get('processFormId')]);
+        $param_keys = array_keys($this->config->get('request_params')[$this->processFormId]);
 
         switch ($name) {
 
@@ -211,7 +218,7 @@ class HttpRequestParser
 
             case 'formId':
             case 'formID':
-            if ($value == $this->config->get('processFormId')) {
+                if ($value == $this->processFormId) {
                     $this->params[$name] = $value;
                 } else {
                     $this->validError($name, $value);
@@ -254,7 +261,7 @@ class HttpRequestParser
      */
     public function mirrorKeys()
     {
-        $request_params = $this->config->get('request_params')[$this->config->get('processFormId')];
+        $request_params = $this->config->get('request_params')[$this->processFormId];
         $_params = array();
 
         foreach ($this->params as $key => $value) {
@@ -378,13 +385,13 @@ class HttpRequestParser
                         $getRes = $this->removeOldestPdf($dir . "/" . $item);
                         if ($getRes['result'] == false) return array('dirname' => $dir . "/" . $item, 'result' => false);
                     }
-                    }
+                }
 
             }
 
         if ($folder != 'files') {
 //            if (is_file($dir)) {
-                $this->rmdir[] = $dir;
+            $this->rmdir[] = $dir;
 
             return rmdir($dir);
 //            }
@@ -628,6 +635,12 @@ EOH;
         $this->mail_headers = $header;
         return @mail($mailto, $subject, "", $header);
     }
-}
 
-?>
+    /**
+     * @param mixed $processFormId
+     */
+    public function setProcessFormId($processFormId)
+    {
+        $this->processFormId = $processFormId;
+    }
+}

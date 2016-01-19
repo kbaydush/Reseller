@@ -2,6 +2,11 @@
 
 class  Handler_Cron extends Handler_Abstract
 {
+    const PROCESS_FORM = 'cron';
+
+    /**
+     * @return $this
+     */
     public function action()
     {
 
@@ -41,9 +46,22 @@ class  Handler_Cron extends Handler_Abstract
         return $this;
     }
 
+    /**
+     * @param array $request
+     * @return $this
+     */
     public function setRequestParams(array $request)
     {
         return $this;
+    }
+
+    /**
+     * @param $formID
+     * @return $this
+     */
+    public function setProcessFormID($formID)
+    {
+        return parent::setProcessFormID(self::PROCESS_FORM);
     }
 
 }
