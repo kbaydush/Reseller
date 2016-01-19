@@ -35,16 +35,22 @@ class HttpRequestParser
 
     public $mail_headers;
 
-    public function setConfig($config)
+    /**
+     * @param Registry $config
+     * @return $this
+     */
+    public function setConfig(Registry $config)
     {
         $this->config = $config;
         return $this;
     }
 
+    /**
+     * @return Registry
+     */
     public function getConfig()
     {
         return $this->config;
-
     }
 
     /**

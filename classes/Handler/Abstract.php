@@ -10,32 +10,22 @@ abstract class Handler_Abstract
     /** @var HttpRequestParser */
     protected $Request;
 
-    public function __construct($CFG, $formId)
+    /**
+     * Handler_Abstract constructor.
+     * @param Registry $CFG
+     * @param $formId
+     */
+    public function __construct(Registry $CFG, $formId)
     {
-
-// Set real formId
-
+        // Set real formId
         $CFG->set('processFormId', $formId);
 
-// set path and name of the log file (optionally)
+        // set path and name of the log file (optionally)
         $this->error_log = new Logging($CFG->get('logs_dir') . 'error.log');
         $this->query_log = new Logging($CFG->get('logs_dir') . 'query.log');
 
-        try {
-            $this->Request = new HttpRequestParser();
-
-            if (empty($CFG) || !isset($CFG)) {
-                throw new \InvalidArgumentException("Bootstrap failed!");
-
-            } else {
-                $this->Request->setConfig($CFG);
-            }
-
-        } catch (Exception $e) {
-            header('HTTP/1.1 400 BAD_REQUEST');
-            $this->error_log->logError($e->getMessage());
-            die();
-        }
+        $this->Request = new HttpRequestParser();
+        $this->Request->setConfig($CFG);
     }
 
     public function __destruct()
