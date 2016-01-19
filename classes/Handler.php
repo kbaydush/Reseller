@@ -65,7 +65,7 @@ class Handler
             die();
         }
 
-        return true;
+        return $this;
     }
 
     function __destruct()
