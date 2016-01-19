@@ -25,4 +25,4 @@ EXAMPLE:
 
 make POST or GET request on this app
 
-http://testsite.localhost/entry_point_one.php?formId=10&OrderID=123456&CustomerCompany=SomeCompanyName&LicenseKey=ABC2211
+http://testsite.localhost/sync.php?formId=10&OrderID=123456&CustomerCompany=SomeCompanyName&LicenseKey=ABC2211
