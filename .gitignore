@@ -15,9 +15,11 @@
 # Sensitive or high-churn files:
 # .idea/dataSources.ids
 # .idea/dataSources.xml
+/plugins
 # .idea/sqlDataSources.xml
 # .idea/dynamic.xml
 # .idea/uiDesigner.xml
+/composer.lock
 
 # Gradle:
 # .idea/gradle.xml
