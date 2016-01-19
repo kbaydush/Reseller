@@ -6,10 +6,9 @@
  * @copyright   baidush.k
  * @license     {license_link}
  */
-
 class Registry implements Registry_Interface
 {
-    /** @var  Registry_Row [] */
+    /** @var  Registry [] */
     private $container = array();
 
     public function set($key, $value)
