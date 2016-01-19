@@ -1,5 +1,5 @@
 <?php
-// running:  php -f one_file_to_run.php cron
+// running:  php -f sync.php cron
 
 require_once dirname(__FILE__) . "/bootstrap.php";
 
