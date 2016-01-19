@@ -22,7 +22,7 @@ class Logger_Row
      */
     public function __construct($type, $message)
     {
-        $this->time = time();
+        $this->time = date("Y-m-d H:i:s", time());
         $this->type = $type;
         $this->message = $message;
     }
