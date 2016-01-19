@@ -40,4 +40,10 @@ class  Handler_Cron extends Handler_Abstract
 
         return $this;
     }
+
+    public function setRequestParams(array $request)
+    {
+        return $this;
+    }
+
 }
