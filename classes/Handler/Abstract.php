@@ -13,19 +13,25 @@ abstract class Handler_Abstract
     /**
      * Handler_Abstract constructor.
      * @param Registry $CFG
-     * @param $formId
      */
-    public function __construct(Registry $CFG, $formId)
+    public function __construct(Registry $CFG)
     {
-        // Set real formId
-        $CFG->set('processFormId', $formId);
-
         // set path and name of the log file (optionally)
         $this->error_log = new Logging($CFG->get('logs_dir') . 'error.log');
         $this->query_log = new Logging($CFG->get('logs_dir') . 'query.log');
 
         $this->Request = new HttpRequestParser();
         $this->Request->setConfig($CFG);
+    }
+
+    /**
+     * @param $formID
+     * @return $this
+     */
+    public function setProcessFormID($formID)
+    {
+        $this->Request->setProcessFormId($formID);
+        return $this;
     }
 
     public function __destruct()
@@ -36,6 +42,10 @@ abstract class Handler_Abstract
         echo "Done.";
     }
 
+    /**
+     * @param array $request
+     * @return $this
+     */
     public function setRequestParams(array $request)
     {
         try {
