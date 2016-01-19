@@ -1,80 +1,7 @@
 <?php
 
-/**
- * {license_notice}
- *
- * @copyright   baidush.k
- * @license     {license_link}
- */
-class Handler
+class Handler_Http extends Handler_Abstract
 {
-    /** @var Logger_Interface */
-    private $error_log;
-    /** @var Logger_Interface */
-    private $query_log;
-    /** @var HttpRequestParser */
-    private $Request;
-
-    public function __construct($CFG, $formId)
-    {
-
-// Set real formId
-
-        $CFG->set('processFormId', $formId);
-
-// set path and name of the log file (optionally)
-        $this->error_log = new Logging($CFG->get('logs_dir') . 'error.log');
-        $this->query_log = new Logging($CFG->get('logs_dir') . 'query.log');
-
-        try {
-            $this->Request = new HttpRequestParser();
-
-            if (empty($CFG) || !isset($CFG)) {
-                throw new \InvalidArgumentException("Bootstrap failed!");
-
-            } else {
-                $this->Request->setConfig($CFG);
-            }
-
-        } catch (Exception $e) {
-            header('HTTP/1.1 400 BAD_REQUEST');
-            $this->error_log->logError($e->getMessage());
-            die();
-        }
-    }
-
-    public function setRequestParams($GET, $POST)
-    {
-        try {
-
-            if ($this->Request->getConfig()->get('processFormId') != 'cron')
-                if (count($POST) > 0) {
-
-                    $this->Request->setParams($POST);
-                } else if (count($GET) > 0) {
-                    $this->Request->setParams($GET);
-
-
-                } else {
-                    throw new \InvalidArgumentException("Required params are absent!");
-                }
-
-        } catch (Exception $e) {
-            header('HTTP/1.1 400 BAD_REQUEST');
-            $this->error_log->logError($e->getMessage());
-            die();
-        }
-
-        return $this;
-    }
-
-    function __destruct()
-    {
-        unset($this->query_log);
-        unset($this->error_log);
-
-        echo "Done.";
-    }
 
     public function action()
     {
@@ -187,44 +114,4 @@ class Handler
         }
 
     }
-
-    public function actionCron()
-    {
-
-        if (!$this->Request->getDebugMode('cron')) {
-            $this->query_log->logInfo('Notice: Cron disabled.');
-            die();
-
-        }
-        if ($this->Request->getDebugMode('pm') == true) {
-            try {
-                $this->Request->setDebugMode('force', true);
-                $this->Request->setDebugMode('push', true);
-
-                if (!$this->Request->loadStorage()) {
-                    $this->error_log->logInfo("Data file is empty.");
-                } else {
-                    $this->query_log->logInfo('Request to the mirror has been started..........');
-
-                    $response = $this->Request->handle();
-
-                    foreach ($response as $key => $val) {
-                        $this->query_log->logInfo('Server URL: ' . $val['mirror_url']);
-                        $this->query_log->logInfo('FormId: ' . $val['formId']);
-                        $this->query_log->logInfo('Response: ' . http_build_query($val));
-                        if (!empty($response[$key]['status'])) {
-                            header('HTTP/1.1 400 BAD_REQUEST');
-                            $this->error_log->logError($response[$key]['status']);
-                        }
-                    }
-                }
-
-            } catch (Exception $e) {
-                $this->error_log->logError($e->getMessage());
-            }
-        }
-
-        return $this;
-    }
-
 }
