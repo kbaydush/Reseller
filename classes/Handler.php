@@ -223,6 +223,8 @@ class Handler
                 $this->error_log->logError($e->getMessage());
             }
         }
+
+        return $this;
     }
 
 }
