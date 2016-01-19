@@ -19,11 +19,9 @@ class HandlerFabric
         switch ($command) {
             case "one":
                 $Handler = new Handler_Http($config, $config->get('all_form_id_array')['purchases']);
-                $Handler->setRequestParams($_GET, $_POST);
                 break;
             case "two":
                 $Handler = new Handler_Http($config, $config->get('all_form_id_array')['refunds']);
-                $Handler->setRequestParams($_GET, $_POST);
                 break;
             case "cron":
                 $Handler = new Handler_Cron($config, 'cron');
@@ -32,7 +30,21 @@ class HandlerFabric
                 throw new \InvalidArgumentException("bad parameter to run ( one, two, cron )");
         }
 
-        return $Handler;
+        return $Handler->setRequestParams(self::getRequest());
+    }
 
+    /**
+     * @return array
+     */
+    private static function getRequest()
+    {
+        $return = array();
+        if (isset($_POST) and count($_POST) > 0) {
+            $return = $_POST;
+        } else if (isset($_GET) and count($_GET) > 0) {
+            $return = $_GET;
+        }
+
+        return $return;
     }
 }

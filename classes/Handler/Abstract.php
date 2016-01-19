@@ -46,22 +46,14 @@ abstract class Handler_Abstract
         echo "Done.";
     }
 
-    public function setRequestParams($GET, $POST)
+    public function setRequestParams(array $request)
     {
         try {
-
-            if ($this->Request->getConfig()->get('processFormId') != 'cron')
-                if (count($POST) > 0) {
-
-                    $this->Request->setParams($POST);
-                } else if (count($GET) > 0) {
-                    $this->Request->setParams($GET);
-
-
-                } else {
-                    throw new \InvalidArgumentException("Required params are absent!");
-                }
-
+            if (count($request) > 0) {
+                $this->Request->setParams($request);
+            } else {
+                throw new \InvalidArgumentException("Required params are absent!");
+            }
         } catch (Exception $e) {
             header('HTTP/1.1 400 BAD_REQUEST');
             $this->error_log->logError($e->getMessage());
