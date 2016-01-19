@@ -9,7 +9,8 @@
 interface Registry_Interface
 {
     /**
-     * @param string $key , string $value
+     * @param string $key
+     * @param string $value
      * @return void
      * @throws Exception
      */
