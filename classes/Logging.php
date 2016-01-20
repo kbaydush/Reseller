@@ -15,6 +15,7 @@ class Logging implements Logger_Interface
 
     /** @var  string */
     protected $log_file;
+
     /** @var  Logger_Row [] */
     protected $messages = array();
 

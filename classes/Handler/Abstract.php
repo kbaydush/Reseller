@@ -4,9 +4,7 @@ abstract class Handler_Abstract
 {
 
     /** @var Logger_Interface */
-    protected $error_log;
-    /** @var Logger_Interface */
-    protected $query_log;
+    protected $logger;
     /** @var HttpRequestParser */
     protected $Request;
 
@@ -17,8 +15,7 @@ abstract class Handler_Abstract
     public function __construct(Registry $CFG)
     {
         // set path and name of the log file (optionally)
-        $this->error_log = new Logging($CFG->get('logs_dir') . 'error.log');
-        $this->query_log = new Logging($CFG->get('logs_dir') . 'query.log');
+        $this->logger = new Logging($CFG->get('logs_dir') . 'query.log');
 
         $this->Request = new HttpRequestParser();
         $this->Request->setConfig($CFG);
@@ -36,8 +33,7 @@ abstract class Handler_Abstract
 
     public function __destruct()
     {
-        unset($this->query_log);
-        unset($this->error_log);
+        unset($this->logger);
 
         echo "Done.";
     }
@@ -56,7 +52,7 @@ abstract class Handler_Abstract
             }
         } catch (Exception $e) {
             header('HTTP/1.1 400 BAD_REQUEST');
-            $this->error_log->logError($e->getMessage());
+            $this->logger->logError($e->getMessage());
             die();
         }
 
