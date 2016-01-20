@@ -6,7 +6,7 @@
  * @copyright   baidush.k
  * @license     {license_link}
  */
-class HttpRequestParser
+class Request_Abstract
 {
     protected $processFormId = Handler_Cron::PROCESS_FORM;
 

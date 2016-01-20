@@ -17,7 +17,7 @@ abstract class Handler_Abstract
         // set path and name of the log file (optionally)
         $this->logger = new Logging($CFG->get('logs_dir') . 'query.log');
 
-        $this->Request = new HttpRequestParser();
+        $this->Request = new HandlerRequest();
         $this->Request->setConfig($CFG);
     }
 
