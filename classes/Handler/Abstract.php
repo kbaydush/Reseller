@@ -5,20 +5,20 @@ abstract class Handler_Abstract
 
     /** @var Logger_Interface */
     protected $logger;
-    /** @var HttpRequestParser */
+    /** @var HandlerRequest */
     protected $Request;
 
     /**
      * Handler_Abstract constructor.
-     * @param Registry $CFG
+     * @param Config $config
      */
-    public function __construct(Registry $CFG)
+    public function __construct(Config $config)
     {
         // set path and name of the log file (optionally)
-        $this->logger = new Logging($CFG->get('logs_dir') . 'query.log');
+        $this->logger = new Logging($config->getLogDirectory() . 'query.log');
 
         $this->Request = new HandlerRequest();
-        $this->Request->setConfig($CFG);
+        $this->Request->setConfig($config);
     }
 
     /**

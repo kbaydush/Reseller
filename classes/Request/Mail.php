@@ -28,8 +28,9 @@ class Request_Mail extends Request_Abstract
             $data = chunk_split(base64_encode($data));
         }
 
-        $from_name = 'SomeCompanyName Orders';
-        $from_mail = $this->config->get('mail_from');
+        $from_name = $this->getConfig()->getMailFrom()->getName();
+        $from_mail = $this->getConfig()->getMailFrom()->getEmail();
+
         $uid = md5(uniqid(time()));
         $subject = 'Your ' . $this->getParam('OrderProductNames') . ' Delivery Information';
         $filename = 'SiteLicense-' . $this->getParam('LicenseKey') . '.pdf';

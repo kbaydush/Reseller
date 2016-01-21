@@ -11,10 +11,10 @@ class HandlerFabric
 
     /**
      * @param string $command
-     * @param Registry $config
+     * @param Config $config
      * @return Handler_Abstract
      */
-    public static function handle($command, Registry $config)
+    public static function handle($command, Config $config)
     {
         switch ($command) {
 
@@ -28,7 +28,7 @@ class HandlerFabric
 
         $Handler->setCommand($command);
 
-        return $Handler->setProcessFormID(self::getProcessFormId($command, $config))
+        return $Handler->setProcessFormID(self::getProcessFormId($command, $config->getRegistry()))
             ->setRequestParams(self::getRequest());
     }
 

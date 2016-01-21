@@ -1,23 +1,8 @@
 <?php
 
 $CFG->set('root_dir', dirname(dirname(__FILE__)));
-$CFG->set('classes_dir', $CFG->get('root_dir') . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR);
-$CFG->set('logs_dir', $CFG->get('root_dir') . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR);
-$CFG->set('libs_dir', $CFG->get('root_dir') . DIRECTORY_SEPARATOR . "lib" . DIRECTORY_SEPARATOR);
-
-$CFG->set('mail_from', 'orders@testsite.localhost');
-$CFG->set('test_mail', 'averskos@gmail.com');
-$CFG->set('pdf_title', 'SITE LICENSE AGREEMENT');
-$CFG->set('pdf_author', 'SomeCompanyName Inc.');
-
-
-
-
-// life time of PDF file
-$CFG->set('pdf_lifetime', 60 * 5);
 
 // debug settings by default (on/off)
-
 $CFG->set('DEBUG_MODE_BY_DEFAULT', array(
     //   gen pdf init
     'pdf' => 1,
@@ -50,3 +35,15 @@ $CFG->set('response_wrong', array(
     'http://mirror-db.localhost/error.html'
 ));
 
+$config = new Config(ROOT_DIR);
+$config->setRegistry($CFG)
+    ->setLogDirectory("logs")
+    ->setMailFrom(
+        new Config_Mail('orders@testsite.localhost', 'SomeCompanyName Orders')
+    )
+    ->setMailTest(
+        new Config_Mail('averskos@gmail.com')
+    )
+    ->setPDF(
+        new Config_PDF('SITE LICENSE AGREEMENT', 'SomeCompanyName Inc.', 60 * 5)
+    );

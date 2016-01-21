@@ -12,7 +12,7 @@ class Request_Abstract
 
 
     /** @var Registry */
-    protected $config;
+    protected $registry;
 
     /** @var array - Request params */
     protected $params = array();
@@ -35,25 +35,26 @@ class Request_Abstract
     public $file_path;
 
     public $mail_headers;
+    /** @var  Config */
+    protected $config;
 
     /**
-     * @param Registry $config
+     * @param Registry $registry
      * @return $this
      */
-    public function setConfig(Registry $config)
+    protected function setRegistry(Registry $registry)
     {
-        $this->config = $config;
+        $this->registry = $registry;
         return $this;
     }
 
     /**
      * @return Registry
      */
-    public function getConfig()
+    public function getRegistry()
     {
-        return $this->config;
+        return $this->registry;
     }
-
 
 
     /**
@@ -84,7 +85,7 @@ class Request_Abstract
         ) {
             $mode = $this->debug_mode[$name];
         } else {
-            $mode = $this->config->get('DEBUG_MODE_BY_DEFAULT')[$name];
+            $mode = $this->registry->get('DEBUG_MODE_BY_DEFAULT')[$name];
         }
         return $mode;
     }
@@ -92,7 +93,7 @@ class Request_Abstract
     /**
      *  To set Url
      * @param string $url
-     * @return HttpRequestParser
+     * @return Request_Abstract
      */
     public function setUrl($url)
     {
@@ -108,7 +109,7 @@ class Request_Abstract
     public function getUrl()
     {
 
-        return $this->config->get('MIRROR_SERVERS')[$this->getDebugMode('setmirror')];
+        return $this->registry->get('MIRROR_SERVERS')[$this->getDebugMode('setmirror')];
 
     }
 
@@ -149,7 +150,7 @@ class Request_Abstract
         $name = trim($var_arr[0]);
         $value = trim($var_arr[1]);
 
-        $param_keys = array_keys($this->config->get('request_settings')[$this->command]['fnames']);
+        $param_keys = array_keys($this->registry->get('request_settings')[$this->command]['fnames']);
 
         switch ($name) {
 
@@ -174,7 +175,7 @@ class Request_Abstract
                     $value = htmlentities($value);
                     $value = addslashes($value);
                     $this->params[$name] = $value;
-                } else if (array_key_exists($name, $this->config->get('DEBUG_MODE_BY_DEFAULT'))) {
+                } else if (array_key_exists($name, $this->registry->get('DEBUG_MODE_BY_DEFAULT'))) {
                     $this->setDebugMode($name, $value);
                     $this->params[$name] = $value;
                 } else {
@@ -197,14 +198,14 @@ class Request_Abstract
      */
     public function mirrorKeys()
     {
-        $request_params = $this->config->get('request_settings')[$this->command]['fnames'];
+        $request_params = $this->registry->get('request_settings')[$this->command]['fnames'];
         $_params = array();
 
         foreach ($this->params as $key => $value) {
 
             if (array_key_exists($key, $request_params)
-                && !in_array($key, $this->config->get('params_disabled'))
-                && !array_key_exists($key, $this->config->get('DEBUG_MODE_BY_DEFAULT'))
+                && !in_array($key, $this->registry->get('params_disabled'))
+                && !array_key_exists($key, $this->registry->get('DEBUG_MODE_BY_DEFAULT'))
             )
                 $_params[$request_params[$key]] = $value;
 
@@ -252,7 +253,7 @@ class Request_Abstract
     {
         if ($this->getDebugMode('push') == true) {
 
-            $data_arr = file($this->config->get('root_dir') . '/storage', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $data_arr = file($this->getConfig()->getRootDirectory() . '/storage', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
             if (!empty($data_arr)) {
                 foreach ($data_arr as $key => $value) {
@@ -302,5 +303,24 @@ class Request_Abstract
     public function setProcessFormId($processFormId)
     {
         $this->processFormId = $processFormId;
+    }
+
+    /**
+     * @param Config $config
+     * @return $this
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+        $this->registry = $config->getRegistry();
+        return $this;
+    }
+
+    /**
+     * @return Config
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 }

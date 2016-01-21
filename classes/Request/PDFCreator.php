@@ -28,8 +28,8 @@ class Request_PDFCreator extends Request_Abstract
         $mpdf->simpleTables = true;
         $mpdf->useSubstitutions = false;
 
-        $mpdf->SetTitle($this->config->get('pdf_title'));
-        $mpdf->SetAuthor($this->config->get('pdf_author'));
+        $mpdf->SetTitle($this->getConfig()->getPdf()->getTitle() );
+        $mpdf->SetAuthor($this->getConfig()->getPdf()->getAuthor());
 
         if (!empty($style))
             $mpdf->WriteHTML($style, 1);
@@ -38,7 +38,7 @@ class Request_PDFCreator extends Request_Abstract
 
         $mpdf->WriteHTML($html_to_pdf, 2);
 
-        $structure = $this->config->get('root_dir');
+        $structure = $this->getConfig()->getRootDirectory();
 
         if (!file_exists($structure . '/files/' . $this->getParam('OrderID')))
             if (!mkdir($structure . '/files/' . $this->getParam('OrderID'), 0777, true)) {
@@ -59,7 +59,7 @@ class Request_PDFCreator extends Request_Abstract
     {
         foreach ($this->params as $params_key => $params_item) {
             if ($params_key == 'OrderProductNames') {
-                $opn = array('{#OrderProductNames#}' => $this->config->get('order_product_names')[$this->params["OrderProductNames"]]);
+                $opn = array('{#OrderProductNames#}' => $this->registry->get('order_product_names')[$this->params["OrderProductNames"]]);
                 $html = strtr($html, $opn);
 
             } else {
@@ -106,7 +106,7 @@ class Request_PDFCreator extends Request_Abstract
                 $convert = $fstat['ctime'];
 
 
-                if (strtotime("+" . $this->config->get('pdf_lifetime') . " seconds", $convert) < strtotime("now")) {
+                if (strtotime("+" . $this->getConfig()->getPdf()->getLifetime() . " seconds", $convert) < strtotime("now")) {
                     $getRes = $this->removeOldestPdf($dir . "/" . $item);
                     if ($getRes['result'] == false) {
 //                            chmod($dir . "/" . $item, 0777);
