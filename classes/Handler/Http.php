@@ -48,16 +48,16 @@ class Handler_Http extends Handler_Abstract
         if ($this->Request->getDebugMode('pdf')) {
 
             $replacement = '@separator@';
-            $html = file_get_contents($this->Request->getConfig()->get('root_dir') . '/files/SiteLicense.html');
+            $html = file_get_contents($this->Request->getConfig()->getRootDirectory() . '/files/SiteLicense.html');
             $search = preg_replace("#(.*)<style>(.*?)</style>(.*)#is", "$1{$replacement}$2{$replacement}$3", $html);
             $array_html = explode('@separator@', $search);
             $head = $array_html[0];
             $style = $array_html[1];
             $body = $array_html[2];
             $html = $head . $body;
-            $getRes = $this->Request->removeOldestPdf('/files', $this->Request->getConfig()->get('root_dir'));
+            $getRes = $this->Request->removeOldestPdf('/files', $this->Request->getConfig()->getRootDirectory());
             if (!empty($getRes) && $getRes['result'] == false) {
-                $this->logger->logError('PDF file - ' . $getRes['dirname'] . ' does not removed correctly. Lifetime is ' . $this->Request->getConfig()->get('pdf_lifetime') . ' ms');
+                $this->logger->logError('PDF file - ' . $getRes['dirname'] . ' does not removed correctly. Lifetime is ' . $this->Request->getConfig()->getPdf()->getLifetime() . ' ms');
             }
             $attach_pdf = $this->Request->genPDF($html, $style);
 
@@ -76,7 +76,7 @@ class Handler_Http extends Handler_Abstract
             try {
 
                 if ($this->Request->getDebugMode('mail_test') == true) {
-                    $mailto = $this->Request->getConfig()->get('test_mail');
+                    $mailto = $this->Request->getConfig()->getMailTest()->getEmail();
                 } else {
                     $mailto = $this->Request->getParam('CustomerEmail');
                 }
@@ -103,7 +103,7 @@ class Handler_Http extends Handler_Abstract
             echo "CONFIG: ";
             echo "<br/>";
             echo "<br/>";
-            print_r($this->Request->getConfig()->getAll(), 0);
+            print_r($this->Request->getRegistry()->getAll(), 0);
             echo "<br/>";
             echo "<br/>";
             echo "REQUEST PARAMS: ";

@@ -42,7 +42,7 @@ class Request_Curl extends Request_Abstract
             curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($param_value_array));
 
-            curl_setopt($ch, CURLOPT_STDERR, fopen($this->config->get('root_dir') . '/logs/curl.log', 'a+'));
+            curl_setopt($ch, CURLOPT_STDERR, fopen($this->getConfig()->getRootDirectory() . '/logs/curl.log', 'a+'));
 
             $res = curl_exec($ch);
             $response[$param_key] = curl_getinfo($ch);
@@ -86,10 +86,10 @@ class Request_Curl extends Request_Abstract
                 } else if ($st_value['http_code'] == 404) {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Page not found.";
-                } else if (in_array($st_value['redirect_url'], $this->config->get('response_wrong'))) {
+                } else if (in_array($st_value['redirect_url'], $this->registry->get('response_wrong'))) {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Mirror does return error. Data does not submitted.";
-                } else if (in_array($st_value['redirect_url'], $this->config->get('response_successfull'))) {
+                } else if (in_array($st_value['redirect_url'], $this->registry->get('response_successfull'))) {
                     echo "Success: Form data has been submited successfully! <br>";
                 } else {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
