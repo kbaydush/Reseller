@@ -31,6 +31,16 @@ abstract class Handler_Abstract
         return $this;
     }
 
+    /**
+     * @param $command
+     * @return $this
+     */
+    public function setCommand($command)
+    {
+        $this->Request->setCommand($command);
+        return $this;
+    }
+
     public function __destruct()
     {
         unset($this->logger);

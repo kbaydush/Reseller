@@ -174,28 +174,17 @@ class Request_Abstract
         $name = trim($var_arr[0]);
         $value = trim($var_arr[1]);
 
-        if (strlen($value) > 255) {
-            $this->validError($name, $value);
-        }
-
-        $param_keys = array_keys($this->config->get('request_params')[$this->processFormId]);
+        $param_keys = array_keys($this->config->get('request_settings')[$this->command]['fnames']);
 
         switch ($name) {
 
+            case 'formId':
             case 'OrderID':
             case 'CustomerCompany':
             case 'CustomerFirstName':
-            case 'CustomerLastName':
-            case 'AddressCountry':
-            case 'AddressRegion':
-            case 'AddressCity':
-            case 'AddressStreet1':
-            case 'AddressStreet2':
 
                 $this->params[$name] = $value;
-
                 break;
-
             case 'CustomerEmail':
 
                 $valid = filter_var($value, FILTER_VALIDATE_EMAIL);
@@ -204,34 +193,6 @@ class Request_Abstract
                 }
                 $this->params[$name] = $value;
                 break;
-
-            case 'OrderProductNames':
-
-                if (array_key_exists($value, $this->config->get('order_product_names'))) {
-                    $this->params[$name] = $value;
-                } else if (!empty($value)) {
-                    $this->params[$name] = $value;
-                } else {
-                    $this->validError($name, $value);
-                }
-                break;
-
-            case 'formId':
-            case 'formID':
-                if (intval($value)) {
-                    $this->params[$name] = $value;
-                } else {
-                    $this->validError($name, $value);
-                }
-                break;
-            case 'productGroup':
-                if (isset($value) && !empty($value)) {
-                    $this->params[$name] = $value;
-                } else {
-                    $this->validError($name, $value);
-                }
-                break;
-
             default:
 
                 if (in_array($name, $param_keys)) {
@@ -261,7 +222,7 @@ class Request_Abstract
      */
     public function mirrorKeys()
     {
-        $request_params = $this->config->get('request_params')[$this->processFormId];
+        $request_params = $this->config->get('request_settings')[$this->command]['fnames'];
         $_params = array();
 
         foreach ($this->params as $key => $value) {

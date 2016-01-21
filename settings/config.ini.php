@@ -1,8 +1,6 @@
 <?php
 
-$CFG = new Registry();
-
-$CFG->set('root_dir', dirname(__FILE__));
+$CFG->set('root_dir', dirname(dirname(__FILE__)));
 $CFG->set('classes_dir', $CFG->get('root_dir') . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR);
 $CFG->set('logs_dir', $CFG->get('root_dir') . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR);
 $CFG->set('libs_dir', $CFG->get('root_dir') . DIRECTORY_SEPARATOR . "lib" . DIRECTORY_SEPARATOR);
@@ -12,13 +10,7 @@ $CFG->set('test_mail', 'averskos@gmail.com');
 $CFG->set('pdf_title', 'SITE LICENSE AGREEMENT');
 $CFG->set('pdf_author', 'SomeCompanyName Inc.');
 
-// Here you can add any form id which we need
 
-$CFG->set('all_form_id_array', array(
-    'purchases' => 1,
-    'refunds' => 2
-
-));
 
 
 // life time of PDF file
@@ -45,50 +37,6 @@ $CFG->set('DEBUG_MODE_BY_DEFAULT', array(
 $CFG->set('MIRROR_SERVERS', array(
     'test' => 'http://testmirror.localhost',
     'local' => 'http://mirror.localhost'
-));
-
-// Purchases params
-
-$CFG->set('request_params', array(
-
-
-        $CFG->get('all_form_id_array')['purchases'] => array(
-            'id' => 'mirrorId',
-            'name' => 'mirrorName',
-            'surname' => 'mirrorSurname',
-            'product' => 'mirrorProduct',
-            'LicenseKey' => 'mirrorLicenseKey',
-            'CustomerCompany' => 'mirrorCustomerCompany',
-            'security_data' => 'security_data',
-            'security_hash' => 'security_hash'
-        ),
-
-
-        $CFG->get('all_form_id_array')['refunds'] => array(
-            'id' => 'mirrorId',
-            'name' => 'mirrorName',
-            'surname' => 'mirrorSurname',
-            'product' => 'mirrorProduct',
-            'LicenseKey' => 'mirrorLicenseKey',
-            'CustomerCompany' => 'mirrorCustomerCompany',
-            'security_data' => 'security_data',
-            'security_hash' => 'security_hash')
-    )
-);
-
-// Data does not going to mirror
-$CFG->set('params_disabled', array(
-
-    'security_data',
-    'security_hash'
-));
-
-$CFG->set('order_product_names', array(
-    'ProductLetters' => 'PROD-L-001',
-    'ProductNumbers' => 'PROD-N-001',
-    'ProductBasics' => 'PROD-B-0011',
-    'ProductColors' => 'PROD-C-0011',
-    'ProductShapes' => 'PROD-S-0011'
 ));
 
 // response results (redirecting path array)

@@ -22,4 +22,6 @@ $loader->setRootPath(realpath(ROOT_DIR . DIRECTORY_SEPARATOR . "classes" . DIREC
 
 Autoloader::register($loader);
 
-require_once(ROOT_DIR . "/config.ini.php");
+$CFG = new Registry();
+require_once(ROOT_DIR . "/settings/config.ini.php");
+require_once(ROOT_DIR . "/settings/request_config.ini.php");

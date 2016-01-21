@@ -26,6 +26,8 @@ class HandlerFabric
 
         }
 
+        $Handler->setCommand($command);
+
         return $Handler->setProcessFormID(self::getProcessFormId($command, $config))
             ->setRequestParams(self::getRequest());
     }
@@ -53,8 +55,8 @@ class HandlerFabric
     private static function getProcessFormId($command, Registry $config)
     {
 
-        if (isset($config->get('all_form_id_array')[$command])) {
-            return $config->get('all_form_id_array')[$command];
+        if (isset($config->get('request_settings')[$command]['fid'])) {
+            return $config->get('request_settings')[$command]['fid'];
         } else {
             throw new \InvalidArgumentException("wrong command name parameter");
         }
