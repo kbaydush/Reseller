@@ -1,7 +1,7 @@
 <?php
 
 
-class Config_PDF
+class Config_PDF extends Abstract_DataValue
 {
 
     /** @var  string */

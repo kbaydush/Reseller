@@ -1,6 +1,6 @@
 <?php
 
-class Config_Mail
+class Config_Mail extends Abstract_DataValue
 {
     /** @var  string */
     protected $email;
@@ -44,6 +44,14 @@ class Config_Mail
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->getName() . " <" . $this->getEmail() . " >";
     }
 
 
