@@ -1,6 +1,6 @@
 <?php
 
-class Config
+class Config extends Abstract_DataValue
 {
     /** @var  string */
     protected $rootDirectory;

@@ -76,16 +76,27 @@ class Handler_Http extends Handler_Abstract
             try {
 
                 if ($this->Request->getDebugMode('mail_test') == true) {
-                    $mailto = $this->Request->getConfig()->getMailTest()->getEmail();
+                    $mailTo = $this->Request->getConfig()->getMailTest();
                 } else {
-                    $mailto = $this->Request->getParam('CustomerEmail');
+                    $mailTo = new Config_Mail($this->Request->getParam('CustomerEmail'));
                 }
 
-                if ($this->Request->getDebugMode('mail') == true) {
-                    $sent_result = $this->Request->send_mail($mailto, $attach_pdf, $this->Request->file_path);
-                    if ($sent_result) {
-                        $this->logger->logInfo('Mail is correctly sent to ' . $mailto);
-                    }
+                $mail = new Mail($this->Request->getConfig()->getMailFrom());
+                if ($attach_pdf === true) {
+                    $mail->setAttachment(new Mail_Attachment($this->Request->file_path));
+                }
+
+                $mailParams = new Mail_Params();
+                $mailParams->setCustomerFirstName($this->Request->getParam('CustomerFirstName'))
+                    ->setCustomerLastName($this->Request->getParam('CustomerLastName'))
+                    ->setLicenseKey($this->Request->getParam('LicenseKey'))
+                    ->setOrderProductNames($this->Request->getParam('OrderProductNames'))
+                    ->setUrl($this->Request->getParam('url'));
+
+                $mail->setParams($mailParams);
+
+                if (!$mail->send($mailTo)) {
+                    $this->logger->logInfo('Mail is correctly sent to ' . $mailTo->toString());
                 }
 
             } catch (Exception $e) {
