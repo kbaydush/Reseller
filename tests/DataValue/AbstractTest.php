@@ -8,6 +8,7 @@
  */
 namespace Tests\DataValue;
 
+use DataValue_AbstractDataValue;
 use DataValue_Exception_BadProperty;
 use DataValue_Exception_GetterWithoutArguments;
 use DataValue_Exception_NotSetterNotGetter;
@@ -16,56 +17,43 @@ use Mail_ParamDataValue;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
-
-
-//    public function testSetter()
-//    {
-//        $value = "1";
-//        $dataValue = new Mail_ParamDataValue();
-//        $dataValue->setOrderProductNames($value);
-//        $this->assertEquals($value, $dataValue->getOrderProductNames());
-//    }
+    /** @var  DataValue_AbstractDataValue */
+    protected $param;
 
     /** @expectedException DataValue_Exception_NotSetterNotGetter */
     public function testBadMethod()
     {
-        $obj = new Mail_ParamDataValue();
-        $obj->tesUrl();
+        $this->param->tesUrl();
     }
 
     /** @expectedException  DataValue_Exception_SetterOneArgument */
     public function testSetterNullArgumentsException()
     {
-        $obj = new Mail_ParamDataValue();
-        $obj->setUrl();
+        $this->param->setUrl();
     }
 
     /** @expectedException  DataValue_Exception_SetterOneArgument */
     public function testSetterMoreOneArgumentsException()
     {
-        $obj = new Mail_ParamDataValue();
-        $obj->setUrl("1", "2");
+        $this->param->setUrl("1", "2");
     }
 
     /** @expectedException  DataValue_Exception_GetterWithoutArguments */
     public function testGetterNotNUllArgumentsException()
     {
-        $obj = new Mail_ParamDataValue();
-        $obj->getUrl("1");
+        $this->param->getUrl("1");
     }
 
     /** @expectedException  DataValue_Exception_BadProperty */
     public function testBadGetterException()
     {
-        $obj = new Mail_ParamDataValue();
-        $obj->getException();
+        $this->param->getException();
     }
 
     /** @expectedException  DataValue_Exception_BadProperty */
     public function testBadSetterException()
     {
-        $obj = new Mail_ParamDataValue();
-        $obj->setException("S");
+        $this->param->setException("S");
     }
 
     /**
@@ -74,12 +62,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetterUpperCase()
     {
-        $obj = new Mail_ParamDataValue();
-
-        $obj->getUrl();
-        $obj->geturl();
-        $obj->Geturl();
-        $obj->GetUrl();
+        $this->param->getUrl();
+        $this->param->geturl();
+        $this->param->Geturl();
+        $this->param->GetUrl();
     }
 
     /**
@@ -88,12 +74,16 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetterUpperCase()
     {
-        $obj = new Mail_ParamDataValue();
+        $this->param->setUrl("1");
+        $this->param->seturl("1");
+        $this->param->Seturl("1");
+        $this->param->SetUrl("1");
+    }
 
-        $obj->setUrl("1");
-        $obj->seturl("1");
-        $obj->Seturl("1");
-        $obj->SetUrl("1");
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->param = new Mail_ParamDataValue();
     }
 
 }
