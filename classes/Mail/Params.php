@@ -1,105 +1,29 @@
 <?php
 
-class Mail_Params extends Abstract_DataValue
+/**
+ * @method  string getOrderProductNames()
+ * @method Mail_Params setOrderProductNames($value)
+ * @method  string getLicenseKey()
+ * @method  Mail_Params setLicenseKey ($value)
+ * @method  string getCustomerFirstName()
+ * @method  Mail_Params setCustomerFirstName($value)
+ * @method  string getCustomerLastName()
+ * @method  Mail_Params setCustomerLastName($value)
+ * @method  string getUrl()
+ * @method  Mail_Params setUrl($value)
+ */
+class Mail_Params extends DataValue_AbstractDataValue
 {
-    /** @var  string */
-    protected $OrderProductNames;
-    /** @var  string */
-    protected $LicenseKey;
-    /** @var  string */
-    protected $CustomerFirstName;
-    /** @var  string */
-    protected $CustomerLastName;
-    /** @var  string */
-    protected $url;
 
     /**
-     * @return string
+     * @return void
      */
-    public function getOrderProductNames()
+    protected function _initFields()
     {
-        return $this->OrderProductNames;
-    }
-
-    /**
-     * @param string $OrderProductNames
-     * @return $this
-     */
-    public function setOrderProductNames($OrderProductNames)
-    {
-        $this->OrderProductNames = $OrderProductNames;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLicenseKey()
-    {
-        return $this->LicenseKey;
-    }
-
-    /**
-     * @param string $LicenseKey
-     * @return $this
-     */
-    public function setLicenseKey($LicenseKey)
-    {
-        $this->LicenseKey = $LicenseKey;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCustomerFirstName()
-    {
-        return $this->CustomerFirstName;
-    }
-
-    /**
-     * @param string $CustomerFirstName
-     * @return $this
-     */
-    public function setCustomerFirstName($CustomerFirstName)
-    {
-        $this->CustomerFirstName = $CustomerFirstName;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCustomerLastName()
-    {
-        return $this->CustomerLastName;
-    }
-
-    /**
-     * @param string $CustomerLastName
-     * @return $this
-     */
-    public function setCustomerLastName($CustomerLastName)
-    {
-        $this->CustomerLastName = $CustomerLastName;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * @param string $url
-     * @return $this
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-        return $this;
+        $this->addProperty("OrderProductNames", new DataValue_Property())
+            ->addProperty("LicenseKey", new DataValue_Property())
+            ->addProperty("CustomerFirstName", new DataValue_Property())
+            ->addProperty("CustomerLastName", new DataValue_Property())
+            ->addProperty("url", new DataValue_Property());
     }
 }

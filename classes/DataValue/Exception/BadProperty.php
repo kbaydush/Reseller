@@ -6,11 +6,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class DataValue_Exception_BadSetter extends Exception
+class DataValue_Exception_BadProperty extends Exception
 {
     public function __construct($message = null, $code = null, Exception $previous = null)
     {
-        parent::__construct("Setter do not exist,", $code, $previous);
+        parent::__construct("This property do not exist.", $code, $previous);
     }
-
 }
