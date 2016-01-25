@@ -59,4 +59,33 @@ class AbstractDataValueTest extends PHPUnit_Framework_TestCase
         $obj = new Mail_ParamDataValue();
         $obj->setException("S");
     }
+
+    /**
+     * Test upper case of getter
+     *
+     */
+    public function testGetterUpperCase()
+    {
+        $obj = new Mail_ParamDataValue();
+
+        $obj->getUrl();
+        $obj->geturl();
+        $obj->Geturl();
+        $obj->GetUrl();
+    }
+
+    /**
+     * Test upper case of setter
+     *
+     */
+    public function testSetterUpperCase()
+    {
+        $obj = new Mail_ParamDataValue();
+
+        $obj->setUrl("1");
+        $obj->seturl("1");
+        $obj->Seturl("1");
+        $obj->SetUrl("1");
+    }
+
 }

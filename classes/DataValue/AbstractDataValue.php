@@ -19,8 +19,9 @@ abstract class DataValue_AbstractDataValue
 
     final public function __call($name, array $arguments)
     {
+        $name = mb_strtolower($name);
         $prefix = mb_substr($name, 0, 3);
-        $dataName = mb_strtolower(mb_substr($name, 3));
+        $dataName = mb_substr($name, 3);
 
         if (!$this->isPropertyExist($dataName)) {
             throw  new DataValue_Exception_BadProperty();
