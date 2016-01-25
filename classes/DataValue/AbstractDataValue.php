@@ -8,6 +8,9 @@
  */
 abstract class DataValue_AbstractDataValue
 {
+    /**
+     * @var DataValue_Property_PropertyInterface[]
+     */
     protected $properties = array();
 
     final  public function __construct()
@@ -15,6 +18,9 @@ abstract class DataValue_AbstractDataValue
         $this->_initFields();
     }
 
+    /**
+     * @return void
+     */
     abstract protected function _initFields();
 
     final public function __call($name, array $arguments)
@@ -29,10 +35,10 @@ abstract class DataValue_AbstractDataValue
 
         switch ($prefix) {
             case "set":
-                $this->setter($dataName, $arguments);
+                return $this->setter($dataName, $arguments);
                 break;
             case "get":
-                $this->getter($dataName, $arguments);
+                return $this->getter($dataName, $arguments);
                 break;
             default:
                 throw new DataValue_Exception_NotSetterNotGetter();
@@ -48,11 +54,17 @@ abstract class DataValue_AbstractDataValue
         return isset($this->properties[$dataName]);
     }
 
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return $this
+     * @throws DataValue_Exception_SetterOneArgument
+     */
     protected function setter($name, array $arguments)
     {
         if ($this->isArgumentsCount($arguments, 1)) {
-//            var_dump($name);
-//            var_dump($arguments);
+            $this->getProperty($name)->setValue(current($arguments));
+            return $this;
         } else {
             throw new DataValue_Exception_SetterOneArgument();
         }
@@ -68,11 +80,25 @@ abstract class DataValue_AbstractDataValue
         return count($arguments) === $count;
     }
 
+    /**
+     * @param string $name
+     * @return DataValue_Property_PropertyInterface
+     */
+    protected function getProperty($name)
+    {
+        return $this->properties[$name];
+    }
+
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return mixed
+     * @throws DataValue_Exception_GetterWithoutArguments
+     */
     protected function getter($name, array $arguments)
     {
         if ($this->isArgumentsCount($arguments, 0)) {
-//            var_dump($name);
-//            var_dump($arguments);
+            return $this->getProperty($name)->getValue();
         } else {
             throw new DataValue_Exception_GetterWithoutArguments();
         }
@@ -80,10 +106,10 @@ abstract class DataValue_AbstractDataValue
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param DataValue_Property_PropertyInterface $value
      * @return DataValue_AbstractDataValue
      */
-    final protected function addProperty($name, $value)
+    final protected function addProperty($name, DataValue_Property_PropertyInterface $value)
     {
         $this->properties[mb_strtolower($name)] = $value;
         return $this;

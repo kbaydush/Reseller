@@ -8,7 +8,6 @@
  */
 namespace Tests\DataValue;
 
-use DataValue_AbstractDataValue;
 use DataValue_Exception_BadProperty;
 use DataValue_Exception_GetterWithoutArguments;
 use DataValue_Exception_NotSetterNotGetter;
@@ -17,7 +16,7 @@ use Mail_ParamDataValue;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  DataValue_AbstractDataValue */
+    /** @var  Mail_ParamDataValue */
     protected $param;
 
     /** @expectedException DataValue_Exception_NotSetterNotGetter */
@@ -78,6 +77,22 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->param->seturl("1");
         $this->param->Seturl("1");
         $this->param->SetUrl("1");
+    }
+
+    public function testSetterReturn()
+    {
+        $this->assertInstanceOf("DataValue_AbstractDataValue", $this->param->setUrl("1"));
+    }
+
+
+    public function testGetter()
+    {
+        ;
+        $this->assertEquals(
+            "test value",
+            $this->param->setUrl("test value")
+                ->getUrl()
+        );
     }
 
     protected function setUp()

@@ -17,6 +17,6 @@ class Mail_ParamDataValue extends DataValue_AbstractDataValue
 
     protected function _initFields()
     {
-        $this->addProperty("url", 1);
+        $this->addProperty("url", new DataValue_Property());
     }
 }
