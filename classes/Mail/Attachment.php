@@ -13,6 +13,6 @@ class Mail_Attachment extends DataValue_AbstractDataValue
      */
     protected function _initFields()
     {
-        $this->addProperty('filePath', new DataValue_Property());
+        $this->addProperty('filePath', (new DataValue_Property())->setReadOnly());
     }
 }

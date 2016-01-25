@@ -19,4 +19,13 @@ interface DataValue_Property_PropertyInterface
      * @return DataValue_Property_PropertyInterface
      */
     public function setValue($value);
+
+
+    /**
+     * @return DataValue_Property_PropertyInterface
+     */
+    public function setReadOnly();
+
+    /** @return  boolean */
+    public function isValueSet();
 }

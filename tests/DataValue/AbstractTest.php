@@ -87,7 +87,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testGetter()
     {
-        ;
         $this->assertEquals(
             "test value",
             $this->param->setUrl("test value")
