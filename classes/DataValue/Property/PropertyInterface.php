@@ -28,4 +28,12 @@ interface DataValue_Property_PropertyInterface
 
     /** @return  boolean */
     public function isValueSet();
+
+    /**
+     * @return DataValue_Property_PropertyInterface
+     */
+    public function setRequired();
+
+    /** @return string */
+    public function getPropertyName();
 }

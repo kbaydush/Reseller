@@ -13,15 +13,34 @@ abstract class DataValue_AbstractDataValue
      */
     protected $properties = array();
 
-    final  public function __construct()
+    final public function __construct(array $fields = null)
     {
-        $this->_initFields();
+        if (!is_array($fields)) {
+            $fields = $this->_getInitPropertyList();
+        }
+
+        if (is_array($fields)) {
+            /** @var DataValue_Property_PropertyInterface $property */
+            foreach ($fields as $property) {
+                $this->addProperty($property);
+            }
+        }
     }
 
     /**
-     * @return void
+     * @return array
      */
-    abstract protected function _initFields();
+    abstract protected function _getInitPropertyList();
+
+    /**
+     * @param DataValue_Property_PropertyInterface $value
+     * @return DataValue_AbstractDataValue
+     */
+    final protected function addProperty(DataValue_Property_PropertyInterface $value)
+    {
+        $this->properties[mb_strtolower($value->getPropertyName())] = $value;
+        return $this;
+    }
 
     final public function __call($name, array $arguments)
     {
@@ -30,7 +49,7 @@ abstract class DataValue_AbstractDataValue
         $dataName = mb_substr($name, 3);
 
         if (!$this->isPropertyExist($dataName)) {
-            throw  new DataValue_Exception_BadProperty();
+            throw  new DataValue_Exception_Property_Bad();
         }
 
         switch ($prefix) {
@@ -102,16 +121,5 @@ abstract class DataValue_AbstractDataValue
         } else {
             throw new DataValue_Exception_GetterWithoutArguments();
         }
-    }
-
-    /**
-     * @param string $name
-     * @param DataValue_Property_PropertyInterface $value
-     * @return DataValue_AbstractDataValue
-     */
-    final protected function addProperty($name, DataValue_Property_PropertyInterface $value)
-    {
-        $this->properties[mb_strtolower($name)] = $value;
-        return $this;
     }
 }
