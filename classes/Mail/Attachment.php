@@ -1,25 +1,18 @@
 <?php
 
 
-class Mail_Attachment extends Abstract_DataValue
+/**
+ * @method string getFilePath()
+ * @method Mail_Attachment setFilePath(string $value)
+ */
+class Mail_Attachment extends DataValue_AbstractDataValue
 {
-    /** @var  string */
-    protected $filePath;
 
     /**
-     * Mail_Attachment constructor.
-     * @param string $filePath
+     * @return void
      */
-    public function __construct($filePath)
+    protected function _initFields()
     {
-        $this->filePath = $filePath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFilePath()
-    {
-        return $this->filePath;
+        $this->addProperty('filePath', new DataValue_Property());
     }
 }

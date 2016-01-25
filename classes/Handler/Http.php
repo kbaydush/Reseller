@@ -83,7 +83,9 @@ class Handler_Http extends Handler_Abstract
 
                 $mail = new Mail($this->Request->getConfig()->getMailFrom());
                 if ($attach_pdf === true) {
-                    $mail->setAttachment(new Mail_Attachment($this->Request->file_path));
+                    $attachment = new Mail_Attachment();
+                    $attachment->setFilePath($this->Request->file_path);
+                    $mail->setAttachment($attachment);
                 }
 
                 $mailParams = new Mail_Params();

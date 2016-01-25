@@ -12,11 +12,11 @@ use DataValue_Exception_BadProperty;
 use DataValue_Exception_GetterWithoutArguments;
 use DataValue_Exception_NotSetterNotGetter;
 use DataValue_Exception_SetterOneArgument;
-use Mail_ParamDataValue;
+use Mail_Params;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Mail_ParamDataValue */
+    /** @var  Mail_Params */
     protected $param;
 
     /** @expectedException DataValue_Exception_NotSetterNotGetter */
@@ -98,7 +98,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->param = new Mail_ParamDataValue();
+        $this->param = new Mail_Params();
     }
 
 }
