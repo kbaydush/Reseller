@@ -6,7 +6,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class AbstractDataValueTest extends PHPUnit_Framework_TestCase
+namespace Tests\DataValue;
+
+use DataValue_Exception_BadProperty;
+use DataValue_Exception_GetterWithoutArguments;
+use DataValue_Exception_NotSetterNotGetter;
+use DataValue_Exception_SetterOneArgument;
+use Mail_ParamDataValue;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
 
 

@@ -51,8 +51,8 @@ abstract class DataValue_AbstractDataValue
     protected function setter($name, array $arguments)
     {
         if ($this->isArgumentsCount($arguments, 1)) {
-            var_dump($name);
-            var_dump($arguments);
+//            var_dump($name);
+//            var_dump($arguments);
         } else {
             throw new DataValue_Exception_SetterOneArgument();
         }
@@ -71,8 +71,8 @@ abstract class DataValue_AbstractDataValue
     protected function getter($name, array $arguments)
     {
         if ($this->isArgumentsCount($arguments, 0)) {
-            var_dump($name);
-            var_dump($arguments);
+//            var_dump($name);
+//            var_dump($arguments);
         } else {
             throw new DataValue_Exception_GetterWithoutArguments();
         }
