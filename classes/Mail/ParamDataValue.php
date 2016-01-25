@@ -9,14 +9,14 @@
 
 /**
  *
- * @method Mail_ParamDataValue setOrderProductNames(string $value)
- * @method string getOrderProductNames()
+ * @method Mail_ParamDataValue setUrl(string $value)
+ * @method string getUrl()
  */
 class Mail_ParamDataValue extends DataValue_AbstractDataValue
 {
 
     protected function _initFields()
     {
-        // TODO: Implement _initFields() method.
+        $this->addProperty("url", 1);
     }
 }

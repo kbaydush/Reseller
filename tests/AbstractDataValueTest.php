@@ -22,38 +22,38 @@ class AbstractDataValueTest extends PHPUnit_Framework_TestCase
     public function testBadMethod()
     {
         $obj = new Mail_ParamDataValue();
-        $obj->testMethod();
+        $obj->tesUrl();
     }
 
     /** @expectedException  DataValue_Exception_SetterOneArgument */
     public function testSetterNullArgumentsException()
     {
         $obj = new Mail_ParamDataValue();
-        $obj->setOrderProductNames();
+        $obj->setUrl();
     }
 
     /** @expectedException  DataValue_Exception_SetterOneArgument */
     public function testSetterMoreOneArgumentsException()
     {
         $obj = new Mail_ParamDataValue();
-        $obj->setOrderProductNames("1", "2");
+        $obj->setUrl("1", "2");
     }
 
     /** @expectedException  DataValue_Exception_GetterWithoutArguments */
     public function testGetterNotNUllArgumentsException()
     {
         $obj = new Mail_ParamDataValue();
-        $obj->getOrderProductNames("1");
+        $obj->getUrl("1");
     }
 
-    /** @expectedException  DataValue_Exception_BadGetter */
+    /** @expectedException  DataValue_Exception_BadProperty */
     public function testBadGetterException()
     {
         $obj = new Mail_ParamDataValue();
         $obj->getException();
     }
 
-    /** @expectedException  DataValue_Exception_BadSetter */
+    /** @expectedException  DataValue_Exception_BadProperty */
     public function testBadSetterException()
     {
         $obj = new Mail_ParamDataValue();
