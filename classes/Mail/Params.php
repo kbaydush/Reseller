@@ -16,14 +16,16 @@ class Mail_Params extends DataValue_AbstractDataValue
 {
 
     /**
-     * @return void
+     * @return array
      */
-    protected function _initFields()
+    public function _getInitPropertyList()
     {
-        $this->addProperty("OrderProductNames", new DataValue_Property())
-            ->addProperty("LicenseKey", new DataValue_Property())
-            ->addProperty("CustomerFirstName", new DataValue_Property())
-            ->addProperty("CustomerLastName", new DataValue_Property())
-            ->addProperty("url", new DataValue_Property());
+        return array(
+            (new DataValue_Property("OrderProductNames"))->setRequired(),
+            (new DataValue_Property("LicenseKey"))->setRequired(),
+            (new DataValue_Property("CustomerFirstName"))->setRequired(),
+            (new DataValue_Property("CustomerLastName"))->setRequired(),
+            (new DataValue_Property("url"))->setRequired()
+        );
     }
 }

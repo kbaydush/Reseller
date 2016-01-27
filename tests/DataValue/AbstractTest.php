@@ -8,15 +8,15 @@
  */
 namespace Tests\DataValue;
 
-use DataValue_Exception_BadProperty;
+use DataValue_AbstractDataValue;
 use DataValue_Exception_GetterWithoutArguments;
 use DataValue_Exception_NotSetterNotGetter;
+use DataValue_Exception_Property_Bad;
 use DataValue_Exception_SetterOneArgument;
-use Mail_Params;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Mail_Params */
+    /** @var  DataValue_AbstractDataValue */
     protected $param;
 
     /** @expectedException DataValue_Exception_NotSetterNotGetter */
@@ -43,13 +43,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->param->getUrl("1");
     }
 
-    /** @expectedException  DataValue_Exception_BadProperty */
+    /** @expectedException  DataValue_Exception_Property_Bad */
     public function testBadGetterException()
     {
         $this->param->getException();
     }
 
-    /** @expectedException  DataValue_Exception_BadProperty */
+    /** @expectedException  DataValue_Exception_Property_Bad */
     public function testBadSetterException()
     {
         $this->param->setException("S");
@@ -61,6 +61,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetterUpperCase()
     {
+        $this->param->setUrl("s");
         $this->param->getUrl();
         $this->param->geturl();
         $this->param->Geturl();
@@ -97,7 +98,16 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->param = new Mail_Params();
+
+        $mock = $this->getMockBuilder('DataValue_AbstractDataValue')
+            ->setConstructorArgs(array(
+                array(
+                    new \DataValue_Property("url")
+                )
+            ))
+            ->getMock();
+
+        $this->param = $mock;
     }
 
 }

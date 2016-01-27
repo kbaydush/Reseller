@@ -6,10 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class DataValue_Exception_BadProperty extends Exception
+class DataValue_Exception_Property_ReadOnly extends Exception
 {
     public function __construct($message = null, $code = null, Exception $previous = null)
     {
-        parent::__construct("This property do not exist.", $code, $previous);
+        parent::__construct("This property is read-only.", $code, $previous);
     }
+
 }

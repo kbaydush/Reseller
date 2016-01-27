@@ -22,7 +22,7 @@ class AttachmentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("1", $this->obj->setFilePath("1")->getFilePath());
     }
 
-    /** @expectedException \DataValue_Exception_ReadOnlyProperty */
+    /** @expectedException \DataValue_Exception_Property_ReadOnly */
     public function testReadOnly()
     {
         $this->obj->setFilePath("1")
@@ -38,6 +38,19 @@ class AttachmentTest extends \PHPUnit_Framework_TestCase
 
         }
 
+        $this->assertEquals("1", $this->obj->getFilePath());
+    }
+
+    public function testRequired()
+    {
+        $isError = false;
+        try {
+            $this->obj->getFilePath();
+        } catch (\Exception $e) {
+            $isError = true;
+        }
+        $this->assertTrue($isError);
+        $this->obj->setFilePath("1");
         $this->assertEquals("1", $this->obj->getFilePath());
     }
 
