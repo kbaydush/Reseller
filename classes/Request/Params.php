@@ -6,7 +6,7 @@
  * @copyright   baidush.k
  * @license     {license_link}
  */
-class Request_Abstract
+class Request_Params
 {
     protected $processFormId = Handler_Cron::PROCESS_FORM;
 
@@ -37,6 +37,8 @@ class Request_Abstract
     public $mail_headers;
     /** @var  Config */
     protected $config;
+
+    protected $command;
 
     /**
      * @param Registry $registry
@@ -138,6 +140,16 @@ class Request_Abstract
         }
 
         return false;
+    }
+
+    /**
+     * @param $command
+     * @return $this
+     */
+    public function setCommand($command)
+    {
+        $this->command = $command;
+        return $this;
     }
 
     /**

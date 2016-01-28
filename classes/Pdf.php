@@ -1,6 +1,6 @@
 <?php
 
-class Request_PDFCreator extends Request_Abstract
+class Pdf implements Pdf_Creator
 {
 
 
@@ -28,7 +28,7 @@ class Request_PDFCreator extends Request_Abstract
         $mpdf->simpleTables = true;
         $mpdf->useSubstitutions = false;
 
-        $mpdf->SetTitle($this->getConfig()->getPdf()->getTitle() );
+        $mpdf->SetTitle($this->getConfig()->getPdf()->getTitle());
         $mpdf->SetAuthor($this->getConfig()->getPdf()->getAuthor());
 
         if (!empty($style))

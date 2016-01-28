@@ -7,6 +7,8 @@ abstract class Handler_Abstract
     protected $logger;
     /** @var HandlerRequest */
     protected $Request;
+    /** @var HandlerRequest */
+    protected static $Action;
 
     /**
      * Handler_Abstract constructor.
@@ -17,8 +19,10 @@ abstract class Handler_Abstract
         // set path and name of the log file (optionally)
         $this->logger = new Logging($config->getLogDirectory() . 'query.log');
 
-        $this->Request = new HandlerRequest();
+        $this->Request = new Request_Params();
         $this->Request->setConfig($config);
+
+
     }
 
     /**
@@ -40,6 +44,7 @@ abstract class Handler_Abstract
         $this->Request->setCommand($command);
         return $this;
     }
+
 
     public function __destruct()
     {

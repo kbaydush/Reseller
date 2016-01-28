@@ -5,11 +5,11 @@ $CFG->set('root_dir', dirname(dirname(__FILE__)));
 // debug settings by default (on/off)
 $CFG->set('DEBUG_MODE_BY_DEFAULT', array(
     //   gen pdf init
-    'pdf' => 1,
+    'pdf_creator' => 1,
     //  send mail init
-    'sendmail' => 1,
+    'send_mail' => 1,
     'testmail' => 0,   //test mail [yes/no]
-    'request' => 1,          // request to Mirror [yes/no]
+    'curl_http_request' => 1,          // request to Mirror [yes/no]
     'setmirror' => 'test', //Mirror server -> $CFG->MIRROR_SERVERS array values
     'pushstorage' => 0,        // data submit from file [yes/no]
     'force' => 0,       // data submit to main server [yes/no]

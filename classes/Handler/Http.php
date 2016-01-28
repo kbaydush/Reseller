@@ -3,6 +3,7 @@
 class Handler_Http extends Handler_Abstract
 {
 
+
     public function action()
     {
 
@@ -17,12 +18,14 @@ class Handler_Http extends Handler_Abstract
 
 // Request to the mirror
 
-        if ($this->Request->getDebugMode('request') == true) {
+        if ($this->Request->getDebugMode('curl_http_request') == true) {
+
+
             try {
                 if ($this->Request->loadStorage()) {
                     $this->logger->logInfo("Message: Request to the mirror has been started..........");
 
-                    $response = $this->Request->handle();
+                    $response = ActionFabric::handle('curl_http_request')->setParams($this->Request)->doHttpRequest();
 
                     foreach ($response as $key => $val) {
                         $this->logger->logInfo('Server URL: ' . $val['mirror_url']);
@@ -45,7 +48,7 @@ class Handler_Http extends Handler_Abstract
 
 // Generate PDF
 
-        if ($this->Request->getDebugMode('pdf')) {
+        if ($this->Request->getDebugMode('pdf_creator')) {
 
             $replacement = '@separator@';
             $html = file_get_contents($this->Request->getConfig()->getRootDirectory() . '/files/SiteLicense.html');
@@ -55,11 +58,11 @@ class Handler_Http extends Handler_Abstract
             $style = $array_html[1];
             $body = $array_html[2];
             $html = $head . $body;
-            $getRes = $this->Request->removeOldestPdf('/files', $this->Request->getConfig()->getRootDirectory());
+            $getRes = ActionFabric::handle('pdf_creator')->removeOldestPdf('/files', $this->Request->getConfig()->getRootDirectory());
             if (!empty($getRes) && $getRes['result'] == false) {
                 $this->logger->logError('PDF file - ' . $getRes['dirname'] . ' does not removed correctly. Lifetime is ' . $this->Request->getConfig()->getPdf()->getLifetime() . ' ms');
             }
-            $attach_pdf = $this->Request->genPDF($html, $style);
+            $attach_pdf = ActionFabric::handle('pdf_creator')->genPDF($html, $style);
 
             foreach ($this->Request->rmdir as $key => $item) {
                 $this->logger->logInfo('File has been removed -  ' . $item);
@@ -72,7 +75,7 @@ class Handler_Http extends Handler_Abstract
 
 // SEND MAIL
 
-        if ($this->Request->getDebugMode('mail')) {
+        if ($this->Request->getDebugMode('send_mail')) {
             try {
 
                 if ($this->Request->getDebugMode('mail_test') == true) {

@@ -1,19 +1,23 @@
 <?php
 
-class Request_Curl extends Request_Abstract
+class Curl implements Curl_Interface
 {
+    protected $all_params;
+
+    protected $Request;
+
+    public function __Construct()
+    {
 
 
-    private function doHttpRequest()
+    }
+
+    public function doHttpRequest()
     {
 
         foreach ($this->all_params as $param_key => &$param_value_array) {
 
-            if ($this->getDebugMode('force')) {
-                $url = $this->getUrl();
-            } else {
-                $url = $this->all_params[$param_key]['mirror_url'];
-            }
+            $url = $this->all_params[$param_key]['mirror_url'];
 
             // mirror_url parameter must not sending to mirror
             unset($this->all_params[$param_key]['mirror_url']);
@@ -42,7 +46,7 @@ class Request_Curl extends Request_Abstract
             curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($param_value_array));
 
-            curl_setopt($ch, CURLOPT_STDERR, fopen($this->getConfig()->getRootDirectory() . '/logs/curl.log', 'a+'));
+            curl_setopt($ch, CURLOPT_STDERR, fopen($this->Request->getConfig()->getRootDirectory() . '/logs/curl.log', 'a+'));
 
             $res = curl_exec($ch);
             $response[$param_key] = curl_getinfo($ch);
@@ -54,6 +58,15 @@ class Request_Curl extends Request_Abstract
 
         return $this->httpResponseVerification($response);
 
+    }
+
+    public function setParams($Request)
+    {
+        $this->Request = $Request;
+
+        $this->all_params = $this->Request->loadStorage();
+
+        return $this;
     }
 
 
@@ -69,7 +82,7 @@ class Request_Curl extends Request_Abstract
 
         if (flock($fp, LOCK_EX)) {
 
-            if ($this->getDebugMode('push') == true)
+            if ($this->Request->getDebugMode('push') == true)
                 ftruncate($fp, 0);
 
             foreach ($curl_status as $st_key => $st_value) {
@@ -86,10 +99,10 @@ class Request_Curl extends Request_Abstract
                 } else if ($st_value['http_code'] == 404) {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Page not found.";
-                } else if (in_array($st_value['redirect_url'], $this->registry->get('response_wrong'))) {
-                    fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
+                } else if (in_array($st_value['redirect_url'], $this->Request->registry->get('response_wrong'))) {
+                    fwrite($fp, trim(http_build_query($this->Request->all_params[$st_key])) . PHP_EOL);
                     $curl_status[$st_key]['status'] = "Mirror does return error. Data does not submitted.";
-                } else if (in_array($st_value['redirect_url'], $this->registry->get('response_successfull'))) {
+                } else if (in_array($st_value['redirect_url'], $this->Request->registry->get('response_successfull'))) {
                     echo "Success: Form data has been submited successfully! <br>";
                 } else {
                     fwrite($fp, trim(http_build_query($this->all_params[$st_key])) . PHP_EOL);
