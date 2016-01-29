@@ -1,6 +1,6 @@
 <?php
 
-class Curl implements Curl_Interface
+class Action_Curl
 {
     protected $all_params;
 

@@ -1,6 +1,6 @@
 <?php
 
-class Mail
+class Action_Mail
 {
     /** @var  Mail_Attachment */
     protected $attachment;

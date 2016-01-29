@@ -23,15 +23,15 @@ class ActionFabric
         switch ($action_mode) {
 
             case "curl_http_request":
-                $Action = new Curl();
+                $Action = new Action_Curl();
                 break;
 
             case "pdf_creator":
-                $Action = new Pdf();
+                $Action = new Action_Pdf();
                 break;
 
             case "mail":
-                $Action = new Mail();
+                $Action = new Action_Mail();
                 break;
 //
 //            default:

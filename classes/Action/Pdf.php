@@ -1,6 +1,6 @@
 <?php
 
-class Pdf implements Pdf_Creator
+class Action_Pdf
 {
 
 
