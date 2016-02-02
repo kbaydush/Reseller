@@ -1,6 +1,6 @@
 <?php
 
-class Action_Mail
+class Action_Mail extends Action_Abstract
 {
     /** @var  Mail_Attachment */
     protected $attachment;

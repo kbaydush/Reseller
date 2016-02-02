@@ -19,10 +19,24 @@ abstract class Action_Abstract
         // set path and name of the log file (optionally)
         $this->logger = new Logging($config->getLogDirectory() . 'query.log');
 
-        $this->Request = new Request_Params();
-        $this->Request->setConfig($config);
+    }
+
+    public function setRequestData(Request_Params $request)
+    {
+        $this->Request = $request;
+        return $this;
+    }
+
+    public function getParams()
+    {
+        return $this->Request->getParams();
+
+    }
 
 
+    public function getStorage()
+    {
+        return $this->Request->loadStorage();
     }
 }
 

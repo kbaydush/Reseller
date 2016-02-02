@@ -17,6 +17,7 @@ class Mail_Attachment extends DataValue_AbstractDataValue
             (new DataValue_Property("filePath"))
                 ->setReadOnly()
                 ->setRequired()
+                ->setValue('files')
         );
     }
 }

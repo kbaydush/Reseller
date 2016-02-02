@@ -1,6 +1,6 @@
 <?php
 
-class Action_Pdf
+class Action_Pdf extends Action_Abstract
 {
 
 
@@ -9,7 +9,7 @@ class Action_Pdf
 
         $html_to_pdf = $this->varsToHtml($html);
 
-        $_params = $this->getParams();
+        $_params = $this->Request->getParams();
 
         //check unicode
         $only_latin = true;
@@ -28,8 +28,8 @@ class Action_Pdf
         $mpdf->simpleTables = true;
         $mpdf->useSubstitutions = false;
 
-        $mpdf->SetTitle($this->getConfig()->getPdf()->getTitle());
-        $mpdf->SetAuthor($this->getConfig()->getPdf()->getAuthor());
+        $mpdf->SetTitle($this->Request->getConfig()->getPdf()->getTitle());
+        $mpdf->SetAuthor($this->Request->getConfig()->getPdf()->getAuthor());
 
         if (!empty($style))
             $mpdf->WriteHTML($style, 1);
@@ -38,14 +38,14 @@ class Action_Pdf
 
         $mpdf->WriteHTML($html_to_pdf, 2);
 
-        $structure = $this->getConfig()->getRootDirectory();
+        $structure = $this->Request->getConfig()->getRootDirectory();
 
-        if (!file_exists($structure . '/files/' . $this->getParam('OrderID')))
-            if (!mkdir($structure . '/files/' . $this->getParam('OrderID'), 0777, true)) {
+        if (!file_exists($structure . '/files/' . $this->Request->getParam('OrderID')))
+            if (!mkdir($structure . '/files/' . $this->Request->getParam('OrderID'), 0777, true)) {
                 throw new \InvalidArgumentException('Failed to create folders...');
             }
 
-        $this->file_path = $structure . '/files/' . $this->getParam('OrderID') . '/SiteLicense-' . $this->getParam('LicenseKey') . '.pdf';
+        $this->file_path = $structure . '/files/' . $this->Request->getParam('OrderID') . '/SiteLicense-' . $this->Request->getParam('LicenseKey') . '.pdf';
         $mpdf->Output($this->file_path, 'F');
         return true;
     }
@@ -57,9 +57,10 @@ class Action_Pdf
      */
     public function varsToHtml($html)
     {
-        foreach ($this->params as $params_key => $params_item) {
+        $params = $this->Request->getParams();
+        foreach ($params as $params_key => $params_item) {
             if ($params_key == 'OrderProductNames') {
-                $opn = array('{#OrderProductNames#}' => $this->registry->get('order_product_names')[$this->params["OrderProductNames"]]);
+                $opn = array('{#OrderProductNames#}' => $this->registry->get('order_product_names')[$params["OrderProductNames"]]);
                 $html = strtr($html, $opn);
 
             } else {
@@ -106,7 +107,7 @@ class Action_Pdf
                 $convert = $fstat['ctime'];
 
 
-                if (strtotime("+" . $this->getConfig()->getPdf()->getLifetime() . " seconds", $convert) < strtotime("now")) {
+                if (strtotime("+" . $this->Request->getConfig()->getPdf()->getLifetime() . " seconds", $convert) < strtotime("now")) {
                     $getRes = $this->removeOldestPdf($dir . "/" . $item);
                     if ($getRes['result'] == false) {
 //                            chmod($dir . "/" . $item, 0777);

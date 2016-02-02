@@ -3,6 +3,32 @@
 class Handler_Http extends Handler_Abstract
 {
 
+    /**
+     * @param string $command
+     * @param Config $config
+     * @return Handler_Abstract
+     */
+    public function getAction($action_mode)
+    {
+        switch ($action_mode) {
+
+            case "curl_http_request":
+                $Action = new Action_Curl($this->Request->getConfig());
+                break;
+
+            case "pdf_creator":
+                $Action = new Action_Pdf($this->Request->getConfig());
+                break;
+
+            case "mail":
+                $Action = new Action_Mail($this->Request->getConfig());
+                break;
+
+        }
+
+        return $Action->setRequestData($this->Request);
+    }
+
 
     public function action()
     {
@@ -25,7 +51,7 @@ class Handler_Http extends Handler_Abstract
                 if ($this->Request->loadStorage()) {
                     $this->logger->logInfo("Message: Request to the mirror has been started..........");
 
-                    $response = ActionFabric::handle('curl_http_request')->setParams($this->Request)->doHttpRequest();
+                    $response = $this->getAction('curl_http_request')->doHttpRequest();
 
                     foreach ($response as $key => $val) {
                         $this->logger->logInfo('Server URL: ' . $val['mirror_url']);
@@ -58,11 +84,11 @@ class Handler_Http extends Handler_Abstract
             $style = $array_html[1];
             $body = $array_html[2];
             $html = $head . $body;
-            $getRes = ActionFabric::handle('pdf_creator')->removeOldestPdf('/files', $this->Request->getConfig()->getRootDirectory());
+            $getRes = $this->getAction('pdf_creator')->removeOldestPdf('/files', $this->Request->getConfig()->getRootDirectory());
             if (!empty($getRes) && $getRes['result'] == false) {
                 $this->logger->logError('PDF file - ' . $getRes['dirname'] . ' does not removed correctly. Lifetime is ' . $this->Request->getConfig()->getPdf()->getLifetime() . ' ms');
             }
-            $attach_pdf = ActionFabric::handle('pdf_creator')->genPDF($html, $style);
+            $attach_pdf = $this->getAction('pdf_creator')->genPDF($html, $style);
 
             foreach ($this->Request->rmdir as $key => $item) {
                 $this->logger->logInfo('File has been removed -  ' . $item);
@@ -84,7 +110,7 @@ class Handler_Http extends Handler_Abstract
                     $mailTo = new Config_Mail($this->Request->getParam('CustomerEmail'));
                 }
 
-                $mail = new Mail($this->Request->getConfig()->getMailFrom());
+                $mail = new Action_Mail($this->Request->getConfig()->getMailFrom());
                 if ($attach_pdf === true) {
                     $attachment = new Mail_Attachment();
                     $attachment->setFilePath($this->Request->file_path);

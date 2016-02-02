@@ -1,20 +1,13 @@
 <?php
 
-class Action_Curl
+class Action_Curl extends Action_Abstract
 {
-    protected $all_params;
 
-    protected $Request;
-
-    public function __Construct()
-    {
-
-
-    }
+    public $all_params;
 
     public function doHttpRequest()
     {
-
+        $this->all_params = $this->getStorage();
         foreach ($this->all_params as $param_key => &$param_value_array) {
 
             $url = $this->all_params[$param_key]['mirror_url'];
@@ -58,15 +51,6 @@ class Action_Curl
 
         return $this->httpResponseVerification($response);
 
-    }
-
-    public function setParams($Request)
-    {
-        $this->Request = $Request;
-
-        $this->all_params = $this->Request->loadStorage();
-
-        return $this;
     }
 
 

@@ -22,7 +22,6 @@ abstract class Handler_Abstract
         $this->Request = new Request_Params();
         $this->Request->setConfig($config);
 
-
     }
 
     /**
