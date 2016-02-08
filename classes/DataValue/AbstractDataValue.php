@@ -4,9 +4,8 @@ namespace reseller\DataValue;
 
 use reseller\DataValue\Exception\Property\Bad;
 use reseller\DataValue\Exception\NotSetterNotGetter;
-use reseller\DataValue\Exception;
 use reseller\DataValue\Property\PropertyInterface;
-use reseller\DataValue\Exeption\GetterWithoutArguments;
+use reseller\DataValue\Exception\GetterWithoutArguments;
 
 
 /**
