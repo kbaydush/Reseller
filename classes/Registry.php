@@ -1,7 +1,6 @@
 <?php
 
 namespace reseller;
-
 use reseller\Registry\InterfaceClass;
 
 /**

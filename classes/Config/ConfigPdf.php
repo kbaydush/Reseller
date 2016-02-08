@@ -1,7 +1,6 @@
 <?php
 
 namespace reseller\Config;
-
 use reseller\Abstract_DataValue;
 
 class ConfigPDF extends Abstract_DataValue

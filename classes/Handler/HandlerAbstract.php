@@ -1,10 +1,8 @@
 <?php
 namespace reseller\Handler;
-
 use reseller\Logging;
 use reseller\Config;
 use reseller\Request\Params;
-
 abstract class HandlerAbstract
 {
 

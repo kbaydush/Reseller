@@ -8,7 +8,6 @@
  */
 
 namespace reseller;
-
 use reseller\Logger\LoggerInterface;
 use reseller\Logger\Row;
 

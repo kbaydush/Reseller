@@ -1,13 +1,11 @@
 <?php
 namespace reseller\Handler;
-
 use reseller\Action\Curl;
 use reseller\Action\Mail;
 use reseller\Action\Pdf;
 use reseller\Mail\Attachment;
 use reseller\Mail\Params;
 use reseller\Config\ConfigMail;
-
 class Http extends HandlerAbstract
 {
 

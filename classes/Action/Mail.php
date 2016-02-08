@@ -1,6 +1,5 @@
 <?php
 namespace reseller\Action;
-
 use reseller\Config\ConfigMail;
 use reseller\Mail\Attachment;
 

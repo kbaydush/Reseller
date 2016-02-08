@@ -1,7 +1,6 @@
 <?php
 
 namespace reseller\Request;
-
 use reseller\Registry;
 use reseller\Handler\Cron;
 use reseller\Config;

@@ -13,7 +13,6 @@ date_default_timezone_set('UTC');
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "autoload.php";
 
 use reseller\Registry;
-
 $CFG = new Registry();
 
 require_once(ROOT_DIR . "/settings/request_config.ini.php");

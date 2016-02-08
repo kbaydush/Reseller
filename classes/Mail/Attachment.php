@@ -1,7 +1,8 @@
 <?php
 namespace reseller\Mail;
 
-use \reseller\DataValue\AbstractDataValue;
+use reseller\DataValue\AbstractDataValue;
+use reseller\DataValue\Property;
 
 /**
  * @method string getFilePath()
@@ -16,10 +17,10 @@ class Attachment extends AbstractDataValue
     public function _getInitPropertyList()
     {
         return array(
-            (new \reseller\DataValue\Property("files"))
-                ->setReadOnly()
+            (new Property("filePath"))
+//                ->setReadOnly()
                 ->setRequired()
-                ->setValue()
+                ->setValue('files')
         );
     }
 }

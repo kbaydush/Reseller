@@ -1,6 +1,5 @@
 <?php
 namespace reseller\Mail;
-
 use reseller\DataValue\AbstractDataValue;
 use reseller\DataValue\Property;
 /**

@@ -1,6 +1,5 @@
 <?php
 namespace reseller\Action;
-
 use reseller\Config;
 use reseller\Logging;
 use reseller\Request\Params;

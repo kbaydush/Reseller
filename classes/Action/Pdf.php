@@ -1,6 +1,5 @@
 <?php
 namespace reseller\Action;
-
 class Pdf extends ActionAbstract
 {
 

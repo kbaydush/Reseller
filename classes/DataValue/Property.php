@@ -2,13 +2,18 @@
 
 namespace reseller\DataValue;
 
+use reseller\DataValue\Exception\Property\ReadOnly;
+use reseller\DataValue\Property\PropertyAbstract;
+use reseller\DataValue\Property\PropertyInterface;
+use reseller\DataValue\Exception\Property\Required;
+
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Property extends \reseller\DataValue\Property\PropertyAbstract implements \reseller\DataValue\Property\PropertyInterface
+class Property extends PropertyAbstract implements PropertyInterface
 {
 
     /** @var  mixed */
@@ -27,7 +32,7 @@ class Property extends \reseller\DataValue\Property\PropertyAbstract implements 
     public function getValue()
     {
         if ($this->isRequired === true and $this->isValueSet() !== true) {
-            throw  new DataValue_Exception_Property_Required();
+            throw  new Required();
         }
         return $this->value;
     }
@@ -40,7 +45,7 @@ class Property extends \reseller\DataValue\Property\PropertyAbstract implements 
     public function setValue($value)
     {
         if ($this->isReadOnly === true and $this->isValueSet() === true) {
-            throw  new DataValue_Exception_Property_ReadOnly();
+            throw  new ReadOnly();
         }
         $this->value = $value;
         $this->isValueSet = true;
