@@ -1,7 +1,8 @@
 <?php
 
-namespace kbaydush;
-use kbaydush\Registry\InterfaceClass;
+namespace reseller;
+
+use reseller\Registry\InterfaceClass;
 
 /**
  * {license_notice}

@@ -1,15 +1,24 @@
 <?php
 
+namespace reseller\DataValue;
+
+use reseller\DataValue\Exception\Property\Bad;
+use reseller\DataValue\Exception\NotSetterNotGetter;
+use reseller\DataValue\Exception;
+use reseller\DataValue\Property\PropertyInterface;
+use reseller\DataValue\Exeption\GetterWithoutArguments;
+
+
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class DataValue_AbstractDataValue
+abstract class AbstractDataValue
 {
     /**
-     * @var DataValue_Property_PropertyInterface[]
+     * @var PropertyInterface[]
      */
     protected $properties = array();
 
@@ -20,7 +29,7 @@ abstract class DataValue_AbstractDataValue
         }
 
         if (is_array($fields)) {
-            /** @var DataValue_Property_PropertyInterface $property */
+            /** @var PropertyInterface $property */
             foreach ($fields as $property) {
                 $this->addProperty($property);
             }
@@ -36,7 +45,7 @@ abstract class DataValue_AbstractDataValue
      * @param DataValue_Property_PropertyInterface $value
      * @return DataValue_AbstractDataValue
      */
-    final protected function addProperty(DataValue_Property_PropertyInterface $value)
+    final protected function addProperty(PropertyInterface $value)
     {
         $this->properties[mb_strtolower($value->getPropertyName())] = $value;
         return $this;
@@ -49,7 +58,7 @@ abstract class DataValue_AbstractDataValue
         $dataName = mb_substr($name, 3);
 
         if (!$this->isPropertyExist($dataName)) {
-            throw  new DataValue_Exception_Property_Bad();
+            throw  new Bad();
         }
 
         switch ($prefix) {
@@ -60,7 +69,7 @@ abstract class DataValue_AbstractDataValue
                 return $this->getter($dataName, $arguments);
                 break;
             default:
-                throw new DataValue_Exception_NotSetterNotGetter();
+                throw new NotSetterNotGetter();
         }
     }
 
@@ -85,7 +94,7 @@ abstract class DataValue_AbstractDataValue
             $this->getProperty($name)->setValue(current($arguments));
             return $this;
         } else {
-            throw new DataValue_Exception_SetterOneArgument();
+            throw new SetterOneArgument();
         }
     }
 
@@ -119,7 +128,7 @@ abstract class DataValue_AbstractDataValue
         if ($this->isArgumentsCount($arguments, 0)) {
             return $this->getProperty($name)->getValue();
         } else {
-            throw new DataValue_Exception_GetterWithoutArguments();
+            throw new GetterWithoutArguments();
         }
     }
 }

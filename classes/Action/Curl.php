@@ -1,6 +1,7 @@
 <?php
+namespace reseller\Action;
 
-class Action_Curl extends Action_Abstract
+class Curl extends ActionAbstract
 {
 
     public $all_params;

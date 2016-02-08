@@ -1,6 +1,11 @@
 <?php
+namespace reseller\Handler;
 
-abstract class Handler_Abstract
+use reseller\Logging;
+use reseller\Config;
+use reseller\Request\Params;
+
+abstract class HandlerAbstract
 {
 
     /** @var Logger_Interface */
@@ -19,7 +24,7 @@ abstract class Handler_Abstract
         // set path and name of the log file (optionally)
         $this->logger = new Logging($config->getLogDirectory() . 'query.log');
 
-        $this->Request = new Request_Params();
+        $this->Request = new Params();
         $this->Request->setConfig($config);
 
     }
@@ -64,7 +69,7 @@ abstract class Handler_Abstract
             } else {
                 throw new \InvalidArgumentException("Required params are absent!");
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             header('HTTP/1.1 400 BAD_REQUEST');
             $this->logger->logError($e->getMessage());
             die();

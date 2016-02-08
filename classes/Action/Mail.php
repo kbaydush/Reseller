@@ -1,6 +1,10 @@
 <?php
+namespace reseller\Action;
 
-class Action_Mail extends Action_Abstract
+use reseller\Config\ConfigMail;
+use reseller\Mail\Attachment;
+
+class Mail extends ActionAbstract
 {
     /** @var  Mail_Attachment */
     protected $attachment;
@@ -13,7 +17,7 @@ class Action_Mail extends Action_Abstract
      * Mail constructor.
      * @param Config_Mail $mailFrom
      */
-    public function __construct(Config_Mail $mailFrom)
+    public function __construct(ConfigMail $mailFrom)
     {
         $this->mailFrom = $mailFrom;
     }
@@ -22,7 +26,7 @@ class Action_Mail extends Action_Abstract
      * @param Config_Mail $mailTo
      * @return bool
      */
-    public function send(Config_Mail $mailTo)
+    public function send(ConfigMail $mailTo)
     {
         $header = $this->getHeader($this->getMessage());
         return @mail($mailTo->getEmail(), $this->generateSubject(), "", $header);
@@ -72,7 +76,7 @@ class Action_Mail extends Action_Abstract
      * @param Mail_Attachment $attachment
      * @return Mail
      */
-    public function setAttachment(Mail_Attachment $attachment)
+    public function setAttachment(Attachment $attachment)
     {
         $this->attachment = $attachment;
         return $this;
@@ -146,7 +150,7 @@ $attachmentData;
 EOH;
     }
 
-    public function setParams(Mail_Params $mailParams)
+    public function setParams(\reseller\Mail\Params $mailParams)
     {
         $this->params = $mailParams;
     }

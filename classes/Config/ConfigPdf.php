@@ -1,7 +1,10 @@
 <?php
 
+namespace reseller\Config;
 
-class Config_PDF extends Abstract_DataValue
+use reseller\Abstract_DataValue;
+
+class ConfigPDF extends Abstract_DataValue
 {
 
     /** @var  string */

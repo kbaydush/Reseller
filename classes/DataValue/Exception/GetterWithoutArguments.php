@@ -1,12 +1,12 @@
 <?php
-
+namespace reseller\DataValue\Exception;
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class DataValue_Exception_GetterWithoutArguments extends Exception
+class GetterWithoutArguments extends \Exception
 {
     public function __construct($message = null, $code = null, Exception $previous = null)
     {

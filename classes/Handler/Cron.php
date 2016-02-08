@@ -1,6 +1,6 @@
 <?php
-
-class  Handler_Cron extends Handler_Abstract
+namespace reseller\Handler;
+class Cron extends HandlerAbstract
 {
     const PROCESS_FORM = 'cron';
 
@@ -38,7 +38,7 @@ class  Handler_Cron extends Handler_Abstract
                     }
                 }
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->logger->logError($e->getMessage());
             }
         }

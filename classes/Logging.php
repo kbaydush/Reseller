@@ -7,7 +7,12 @@
  * @license     {license_link}
  */
 
-class Logging implements Logger_Interface
+namespace reseller;
+
+use reseller\Logger\LoggerInterface;
+use reseller\Logger\Row;
+
+class Logging implements LoggerInterface
 {
 
     const INFO_PREFIX = "INFO";
@@ -67,7 +72,7 @@ class Logging implements Logger_Interface
      */
     protected function appendMessage($prefix, $message)
     {
-        $this->messages[] = new Logger_Row($prefix, $message);
+        $this->messages[] = new Row($prefix, $message);
     }
 
     /**

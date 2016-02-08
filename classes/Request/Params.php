@@ -1,5 +1,10 @@
 <?php
-use kbaydush\Registry;
+
+namespace reseller\Request;
+
+use reseller\Registry;
+use reseller\Handler\Cron;
+use reseller\Config;
 
 /**
  * {license_notice}
@@ -7,9 +12,9 @@ use kbaydush\Registry;
  * @copyright   baidush.k
  * @license     {license_link}
  */
-class Request_Params
+class Params
 {
-    protected $processFormId = Handler_Cron::PROCESS_FORM;
+    protected $processFormId = Cron::PROCESS_FORM;
 
 
     /** @var Registry */

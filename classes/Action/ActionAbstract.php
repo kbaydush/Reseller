@@ -1,6 +1,11 @@
 <?php
+namespace reseller\Action;
 
-abstract class Action_Abstract
+use reseller\Config;
+use reseller\Logging;
+use reseller\Request\Params;
+
+abstract class ActionAbstract
 {
 
     /** @var Logger_Interface */
@@ -21,7 +26,7 @@ abstract class Action_Abstract
 
     }
 
-    public function setRequestData(Request_Params $request)
+    public function setRequestData(Params $request)
     {
         $this->Request = $request;
         return $this;

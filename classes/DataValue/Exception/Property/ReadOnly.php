@@ -1,14 +1,14 @@
 <?php
-
+namespace reseller\DataValue\Exception\Property;
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class DataValue_Exception_Property_ReadOnly extends Exception
+class ReadOnly extends \Exception
 {
-    public function __construct($message = null, $code = null, Exception $previous = null)
+    public function __construct($message = null, $code = null, \Exception $previous = null)
     {
         parent::__construct("This property is read-only.", $code, $previous);
     }

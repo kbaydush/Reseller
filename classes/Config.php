@@ -1,6 +1,6 @@
 <?php
+namespace reseller;
 
-use kbaydush\Registry;
 
 class Config extends Abstract_DataValue
 {
@@ -74,7 +74,7 @@ class Config extends Abstract_DataValue
      * @param Config_Mail $mail
      * @return Config
      */
-    public function setMailFrom(Config_Mail $mail)
+    public function setMailFrom(\reseller\Config\ConfigMail $mail)
     {
         $this->mailFrom = $mail;
         return $this;
@@ -92,7 +92,7 @@ class Config extends Abstract_DataValue
      * @param Config_Mail $mail
      * @return Config
      */
-    public function setMailTest(Config_Mail $mail)
+    public function setMailTest(\reseller\Config\ConfigMail $mail)
     {
         $this->mailTest = $mail;
         return $this;
@@ -110,7 +110,7 @@ class Config extends Abstract_DataValue
      * @param Config_PDF $PDF
      * @return Config
      */
-    public function setPDF(Config_PDF $PDF)
+    public function setPDF(\reseller\Config\ConfigPDF $PDF)
     {
         $this->pdf = $PDF;
         return $this;

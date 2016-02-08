@@ -6,7 +6,8 @@
  * @license     {license_link}
  */
 
-use kbaydush\Autoloader;
+use reseller\Autoloader;
+use Composer\Autoload;
 
 define('ROOT_DIR', dirname(__FILE__));
 // init autoloader
@@ -15,5 +16,5 @@ require_once(ROOT_DIR . '/classes/Autoloader.php');
 $composer_load = require_once(ROOT_DIR . '/plugins/autoload.php');
 
 $loader = new Autoloader();
-$loader->addNamespace("kbaydush", realpath(ROOT_DIR . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR));
+$loader->addNamespace("reseller", realpath(ROOT_DIR . DIRECTORY_SEPARATOR . "classes" . DIRECTORY_SEPARATOR));
 $loader->register();

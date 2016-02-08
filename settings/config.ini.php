@@ -35,15 +35,15 @@ $CFG->set('response_wrong', array(
     'http://mirror-db.localhost/error.html'
 ));
 
-$config = new Config(ROOT_DIR);
+$config = new reseller\Config(ROOT_DIR);
 $config->setRegistry($CFG)
     ->setLogDirectory("logs")
     ->setMailFrom(
-        new Config_Mail('orders@testsite.localhost', 'SomeCompanyName Orders')
+        new \reseller\Config\ConfigMail('orders@testsite.localhost', 'SomeCompanyName Orders')
     )
     ->setMailTest(
-        new Config_Mail('averskos@gmail.com')
+        new \reseller\Config\ConfigMail('averskos@gmail.com')
     )
     ->setPDF(
-        new Config_PDF('SITE LICENSE AGREEMENT', 'SomeCompanyName Inc.', 60 * 5)
+        new \reseller\Config\ConfigPDF('SITE LICENSE AGREEMENT', 'SomeCompanyName Inc.', 60 * 5)
     );

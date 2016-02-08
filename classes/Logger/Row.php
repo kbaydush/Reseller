@@ -1,12 +1,12 @@
 <?php
-
+namespace reseller\Logger;
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Logger_Row
+class Row
 {
     /** @var int */
     protected $time;

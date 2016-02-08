@@ -1,6 +1,10 @@
 <?php
 
-class Config_Mail extends Abstract_DataValue
+namespace reseller\Config;
+
+use reseller\Abstract_DataValue;
+
+class ConfigMail extends Abstract_DataValue
 {
     /** @var  string */
     protected $email;

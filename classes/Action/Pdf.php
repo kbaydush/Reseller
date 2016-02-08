@@ -1,6 +1,7 @@
 <?php
+namespace reseller\Action;
 
-class Action_Pdf extends Action_Abstract
+class Pdf extends ActionAbstract
 {
 
 
@@ -19,7 +20,7 @@ class Action_Pdf extends Action_Abstract
             }
         }
 
-        $mpdf = new mPDF('utf-8', 'LETTER', '11', 'Arial', 10, 10, 8, 10, 20, 20, 'P', $only_latin); /* set format (margin, padding size, etc) */
+        $mpdf = new \mPDF('utf-8', 'LETTER', '11', 'Arial', 10, 10, 8, 10, 20, 20, 'P', $only_latin); /* set format (margin, padding size, etc) */
 
         $mpdf->charset_in = 'utf-8';
 

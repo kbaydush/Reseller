@@ -1,12 +1,12 @@
 <?php
-
+namespace reseller\Logger;
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Logger_Interface
+interface LoggerInterface
 {
     /**
      * @param string $message

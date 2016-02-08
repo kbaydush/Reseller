@@ -1,5 +1,8 @@
 <?php
+namespace reseller\Mail;
 
+use reseller\DataValue\AbstractDataValue;
+use reseller\DataValue\Property;
 /**
  * @method  string getOrderProductNames()
  * @method Mail_Params setOrderProductNames($value)
@@ -12,7 +15,7 @@
  * @method  string getUrl()
  * @method  Mail_Params setUrl($value)
  */
-class Mail_Params extends DataValue_AbstractDataValue
+class Params extends AbstractDataValue
 {
 
     /**
@@ -21,11 +24,11 @@ class Mail_Params extends DataValue_AbstractDataValue
     public function _getInitPropertyList()
     {
         return array(
-            (new DataValue_Property("OrderProductNames"))->setRequired(),
-            (new DataValue_Property("LicenseKey"))->setRequired(),
-            (new DataValue_Property("CustomerFirstName"))->setRequired(),
-            (new DataValue_Property("CustomerLastName"))->setRequired(),
-            (new DataValue_Property("url"))->setRequired()
+            (new Property("OrderProductNames"))->setRequired(),
+            (new Property("LicenseKey"))->setRequired(),
+            (new Property("CustomerFirstName"))->setRequired(),
+            (new Property("CustomerLastName"))->setRequired(),
+            (new Property("url"))->setRequired()
         );
     }
 }

@@ -1,12 +1,14 @@
 <?php
 
+namespace reseller\DataValue;
+
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class DataValue_Property extends DataValue_Property_PropertyAbstract implements DataValue_Property_PropertyInterface
+class Property extends \reseller\DataValue\Property\PropertyAbstract implements \reseller\DataValue\Property\PropertyInterface
 {
 
     /** @var  mixed */

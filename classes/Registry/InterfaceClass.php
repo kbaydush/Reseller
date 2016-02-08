@@ -1,6 +1,7 @@
 <?php
 
-namespace kbaydush\Registry;
+namespace reseller\Registry;
+
 /**
  * {license_notice}
  *

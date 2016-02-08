@@ -1,5 +1,5 @@
 <?php
-use kbaydush\Registry;
+namespace reseller;
 
 /**
  * Created by PhpStorm.
@@ -20,10 +20,10 @@ class HandlerFabric
         switch ($command) {
 
             case "cron":
-                $Handler = new Handler_Cron($config);
+                $Handler = new \reseller\Handler\Cron($config);
                 break;
             default:
-                $Handler = new Handler_Http($config);
+                $Handler = new \reseller\Handler\Http($config);
 
         }
 

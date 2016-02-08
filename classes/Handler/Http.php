@@ -1,6 +1,14 @@
 <?php
+namespace reseller\Handler;
 
-class Handler_Http extends Handler_Abstract
+use reseller\Action\Curl;
+use reseller\Action\Mail;
+use reseller\Action\Pdf;
+use reseller\Mail\Attachment;
+use reseller\Mail\Params;
+use reseller\Config\ConfigMail;
+
+class Http extends HandlerAbstract
 {
 
     /**
@@ -13,15 +21,15 @@ class Handler_Http extends Handler_Abstract
         switch ($action_mode) {
 
             case "curl_http_request":
-                $Action = new Action_Curl($this->Request->getConfig());
+                $Action = new Curl($this->Request->getConfig());
                 break;
 
             case "pdf_creator":
-                $Action = new Action_Pdf($this->Request->getConfig());
+                $Action = new Pdf($this->Request->getConfig());
                 break;
 
             case "mail":
-                $Action = new Action_Mail($this->Request->getConfig());
+                $Action = new Mail($this->Request->getConfig());
                 break;
 
         }
@@ -107,17 +115,17 @@ class Handler_Http extends Handler_Abstract
                 if ($this->Request->getDebugMode('mail_test') == true) {
                     $mailTo = $this->Request->getConfig()->getMailTest();
                 } else {
-                    $mailTo = new Config_Mail($this->Request->getParam('CustomerEmail'));
+                    $mailTo = new ConfigMail($this->Request->getParam('CustomerEmail'));
                 }
 
-                $mail = new Action_Mail($this->Request->getConfig()->getMailFrom());
+                $mail = new Mail($this->Request->getConfig()->getMailFrom());
                 if ($attach_pdf === true) {
-                    $attachment = new Mail_Attachment();
+                    $attachment = new Attachment();
                     $attachment->setFilePath($this->Request->file_path);
                     $mail->setAttachment($attachment);
                 }
 
-                $mailParams = new Mail_Params();
+                $mailParams = new Params();
                 $mailParams->setCustomerFirstName($this->Request->getParam('CustomerFirstName'))
                     ->setCustomerLastName($this->Request->getParam('CustomerLastName'))
                     ->setLicenseKey($this->Request->getParam('LicenseKey'))
@@ -130,7 +138,7 @@ class Handler_Http extends Handler_Abstract
                     $this->logger->logInfo('Mail is correctly sent to ' . $mailTo->toString());
                 }
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->logger->logError($e->getMessage());
                 $this->logger->logError("Mail didn't sent");
                 die();

@@ -1,7 +1,12 @@
 {
   "require-dev": {
+    "php": ">=5.3.0",
     "phpunit/phpunit": "5.1.*",
     "mpdf/mpdf": "dev-master"
+  },
+  "require": {
+    "php": ">=5.3.0",
+    "dompdf/dompdf": "dev-master"
   },
   "config": {
     "vendor-dir": "plugins"

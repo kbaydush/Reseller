@@ -1,5 +1,5 @@
 <?php
-namespace kbaydush;
+namespace reseller;
 
 /**
  * An example of a general-purpose implementation that includes the optional
