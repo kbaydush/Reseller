@@ -1,4 +1,5 @@
 <?php
+use kbaydush\Registry;
 
 /**
  * {license_notice}

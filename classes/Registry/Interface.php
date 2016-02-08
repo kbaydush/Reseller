@@ -1,12 +1,13 @@
 <?php
 
+namespace kbaydush\Registry;
 /**
  * {license_notice}
  *
  * @copyright   baidush.k
  * @license     {license_link}
  */
-interface Registry_Interface
+interface InterfaceClass
 {
     /**
      * @param string $key

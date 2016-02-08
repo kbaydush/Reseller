@@ -1,5 +1,7 @@
 <?php
 
+use kbaydush\Registry;
+
 class Config extends Abstract_DataValue
 {
     /** @var  string */

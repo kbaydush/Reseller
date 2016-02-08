@@ -1,4 +1,5 @@
 <?php
+use kbaydush\Registry;
 
 /**
  * Created by PhpStorm.
