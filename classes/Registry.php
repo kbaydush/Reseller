@@ -1,12 +1,15 @@
 <?php
 
+namespace kbaydush;
+use kbaydush\Registry\InterfaceClass;
+
 /**
  * {license_notice}
  *
  * @copyright   baidush.k
  * @license     {license_link}
  */
-class Registry implements Registry_Interface
+class Registry implements InterfaceClass
 {
     /** @var  Registry [] */
     private $container = array();
