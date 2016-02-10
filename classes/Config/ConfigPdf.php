@@ -1,6 +1,7 @@
 <?php
 
 namespace reseller\Config;
+
 use reseller\Abstract_DataValue;
 
 class ConfigPDF extends Abstract_DataValue
@@ -37,7 +38,7 @@ class ConfigPDF extends Abstract_DataValue
 
     /**
      * @param string $title
-     * @return Config_PDF
+     * @return ConfigPDF
      */
     public function setTitle($title)
     {
@@ -55,7 +56,7 @@ class ConfigPDF extends Abstract_DataValue
 
     /**
      * @param string $author
-     * @return Config_PDF
+     * @return ConfigPDF
      */
     public function setAuthor($author)
     {
@@ -73,7 +74,7 @@ class ConfigPDF extends Abstract_DataValue
 
     /**
      * @param int $lifetime
-     * @return Config_PDF
+     * @return ConfigPDF
      */
     public function setLifetime($lifetime)
     {

@@ -1,6 +1,7 @@
 <?php
 
 namespace reseller\Config;
+
 use reseller\Abstract_DataValue;
 
 class ConfigMail extends Abstract_DataValue
@@ -56,6 +57,5 @@ class ConfigMail extends Abstract_DataValue
     {
         return $this->getName() . " <" . $this->getEmail() . " >";
     }
-
 
 }
