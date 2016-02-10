@@ -2,6 +2,9 @@
 namespace reseller;
 
 
+use reseller\Config\ConfigMail;
+use reseller\Config\ConfigPDF;
+
 class Config extends Abstract_DataValue
 {
     /** @var  string */
@@ -10,11 +13,11 @@ class Config extends Abstract_DataValue
     protected $registry;
     /** @var  string */
     protected $logDirectory;
-    /** @var  Config_Mail */
+    /** @var  ConfigMail */
     protected $mailFrom;
-    /** @var  Config_Mail */
+    /** @var  ConfigMail */
     protected $mailTest;
-    /** @var  Config_PDF */
+    /** @var  ConfigPDF */
     protected $pdf;
 
     /**
@@ -71,17 +74,17 @@ class Config extends Abstract_DataValue
     }
 
     /**
-     * @param Config_Mail $mail
+     * @param ConfigMail $mail
      * @return Config
      */
-    public function setMailFrom(\reseller\Config\ConfigMail $mail)
+    public function setMailFrom(ConfigMail $mail)
     {
         $this->mailFrom = $mail;
         return $this;
     }
 
     /**
-     * @return Config_Mail
+     * @return ConfigMail
      */
     public function getMailFrom()
     {
@@ -89,17 +92,17 @@ class Config extends Abstract_DataValue
     }
 
     /**
-     * @param Config_Mail $mail
+     * @param ConfigMail $mail
      * @return Config
      */
-    public function setMailTest(\reseller\Config\ConfigMail $mail)
+    public function setMailTest(ConfigMail $mail)
     {
         $this->mailTest = $mail;
         return $this;
     }
 
     /**
-     * @return Config_Mail
+     * @return ConfigMail
      */
     public function getMailTest()
     {
@@ -107,20 +110,21 @@ class Config extends Abstract_DataValue
     }
 
     /**
-     * @param Config_PDF $PDF
+     * @param ConfigPDF $PDF
      * @return Config
      */
-    public function setPDF(\reseller\Config\ConfigPDF $PDF)
+    public function setPDF(ConfigPDF $PDF)
     {
         $this->pdf = $PDF;
         return $this;
     }
 
     /**
-     * @return Config_PDF
+     * @return ConfigPDF
      */
     public function getPdf()
     {
         return $this->pdf;
     }
+    
 }
