@@ -32,6 +32,7 @@ Install:
 Add in composer.json parameters bellow:
 
 {
+
   "repositories": [
         {
         
@@ -45,4 +46,5 @@ Add in composer.json parameters bellow:
     "kbaydush/Reseller: ">=1.0"
     
   }
+  
 }
