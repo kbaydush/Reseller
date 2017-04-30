@@ -26,3 +26,19 @@ EXAMPLE:
 make POST or GET request on this app
 
 http://testsite.localhost/sync.php?formId=10&OrderID=123456&CustomerCompany=SomeCompanyName&LicenseKey=ABC2211
+
+Install:
+
+Add in composer.json parameters bellow:
+
+{
+  "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kbaydush/Reseller.git"
+        }
+    ],
+  "require": {
+    "kbaydush/Reseller: ">=1.0"
+  }
+}
