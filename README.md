@@ -38,6 +38,7 @@ Add in composer.json parameters bellow:
             "url": "https://github.com/kbaydush/Reseller.git"
         }
     ],
+    
   "require": {
     "kbaydush/Reseller: ">=1.0"
   }
