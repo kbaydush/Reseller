@@ -34,12 +34,15 @@ Add in composer.json parameters bellow:
 {
   "repositories": [
         {
+        
             "type": "vcs",
-            "url": "https://github.com/kbaydush/Reseller.git"
+            "url": "https://github.com/kbaydush/Reseller.git"        
         }
     ],
     
   "require": {
+  
     "kbaydush/Reseller: ">=1.0"
+    
   }
 }
